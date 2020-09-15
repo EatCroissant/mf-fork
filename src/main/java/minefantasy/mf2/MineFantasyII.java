@@ -100,6 +100,7 @@ public class MineFantasyII {
         new ConfigHardcore().setConfig(getCfg(event, "Hardcore"));
         new ConfigIntegration().setConfig(getCfg(event, "Integration"));
         new ConfigTools().setConfig(getCfg(event, "Tools"));
+        new ConfigRecipes().setConfig(getCfg(event, "Recipes"));
         new ConfigWeapon().setConfig(getCfg(event, "Weapons"));
         new ConfigStamina().setConfig(getCfg(event, "Stamina_System"));
         new ConfigItemRegistry().setConfig(getCfg(event, "Item_Registry"));

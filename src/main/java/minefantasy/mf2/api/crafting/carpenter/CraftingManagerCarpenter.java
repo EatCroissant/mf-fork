@@ -1,6 +1,9 @@
 package minefantasy.mf2.api.crafting.carpenter;
 
+import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.rpg.Skill;
+import minefantasy.mf2.integration.minetweaker.helpers.TweakedShapedAnvilRecipe;
+import minefantasy.mf2.integration.minetweaker.helpers.TweakedShapedCBRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -51,67 +54,67 @@ public class CraftingManagerCarpenter {
      */
     public ICarpenterRecipe addRecipe(ItemStack result, Skill skill, String research, String sound, float exp,
                                       String tool, int hammer, int anvil, int time, byte id, Object... input) {
-        String var3 = "";
-        int var4 = 0;
-        int var5 = 0;
-        int var6 = 0;
-        int var9;
+        String somestring = "";
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        int n;
 
-        if (input[var4] instanceof String[]) {
-            String[] var7 = ((String[]) input[var4++]);
-            String[] var8 = var7;
-            var9 = var7.length;
+        if (input[i] instanceof String[]) {
+            String[] strings = ((String[]) input[i++]);
+            String[] strings1 = strings;
+            n = strings.length;
 
-            for (int var10 = 0; var10 < var9; ++var10) {
-                String var11 = var8[var10];
-                ++var6;
-                var5 = var11.length();
-                var3 = var3 + var11;
+            for (int p = 0; p < n; ++p) {
+                String str = strings1[p];
+                ++k;
+                j = str.length();
+                somestring = somestring + str;
             }
         } else {
-            while (input[var4] instanceof String) {
-                String var13 = (String) input[var4++];
-                ++var6;
-                var5 = var13.length();
-                var3 = var3 + var13;
+            while (input[i] instanceof String) {
+                String var13 = (String) input[i++];
+                ++k;
+                j = var13.length();
+                somestring = somestring + var13;
             }
         }
 
-        HashMap var14;
+        HashMap hashMap;
 
-        for (var14 = new HashMap(); var4 < input.length; var4 += 2) {
-            Character var16 = (Character) input[var4];
+        for (hashMap = new HashMap(); i < input.length; i += 2) {
+            Character var16 = (Character) input[i];
             ItemStack var17 = null;
 
-            if (input[var4 + 1] instanceof Item) {
-                var17 = new ItemStack((Item) input[var4 + 1], 1, 32767);
-            } else if (input[var4 + 1] instanceof Block) {
-                var17 = new ItemStack((Block) input[var4 + 1], 1, 32767);
-            } else if (input[var4 + 1] instanceof ItemStack) {
-                var17 = (ItemStack) input[var4 + 1];
+            if (input[i + 1] instanceof Item) {
+                var17 = new ItemStack((Item) input[i + 1], 1, 32767);
+            } else if (input[i + 1] instanceof Block) {
+                var17 = new ItemStack((Block) input[i + 1], 1, 32767);
+            } else if (input[i + 1] instanceof ItemStack) {
+                var17 = (ItemStack) input[i + 1];
             }
 
-            var14.put(var16, var17);
+            hashMap.put(var16, var17);
         }
 
-        ItemStack[] var15 = new ItemStack[var5 * var6];
+        ItemStack[] var15 = new ItemStack[j * k];
 
-        for (var9 = 0; var9 < var5 * var6; ++var9) {
-            char var18 = var3.charAt(var9);
+        for (n = 0; n < j * k; ++n) {
+            char var18 = somestring.charAt(n);
 
-            if (var14.containsKey(Character.valueOf(var18))) {
-                var15[var9] = ((ItemStack) var14.get(Character.valueOf(var18))).copy();
+            if (hashMap.containsKey(Character.valueOf(var18))) {
+                var15[n] = ((ItemStack) hashMap.get(Character.valueOf(var18))).copy();
             } else {
-                var15[var9] = null;
+                var15[n] = null;
             }
         }
         ICarpenterRecipe recipe;
 
         if (id == (byte) 1) {
-            recipe = new CustomToolRecipeCarpenter(var5, var6, var15, result, tool, time, hammer, anvil, exp, false,
+            recipe = new CustomToolRecipeCarpenter(j, k, var15, result, tool, time, hammer, anvil, exp, false,
                     sound, research, skill);
         } else {
-            recipe = new ShapedCarpenterRecipes(var5, var6, var15, result, tool, time, hammer, anvil, exp, false, sound,
+            recipe = new ShapedCarpenterRecipes(j, k, var15, result, tool, time, hammer, anvil, exp, false, sound,
                     research, skill);
         }
         this.recipes.add(recipe);
@@ -147,27 +150,27 @@ public class CraftingManagerCarpenter {
     }
 
     public ItemStack findMatchingRecipe(CarpenterCraftMatrix matrix) {
-        int var2 = 0;
+        int matches = 0;
         ItemStack var3 = null;
         ItemStack var4 = null;
 
-        for (int var5 = 0; var5 < matrix.getSizeInventory(); ++var5) {
-            ItemStack var6 = matrix.getStackInSlot(var5);
+        for (int i = 0; i < matrix.getSizeInventory(); ++i) {
+            ItemStack is = matrix.getStackInSlot(i);
 
-            if (var6 != null) {
-                if (var2 == 0) {
-                    var3 = var6;
+            if (is != null) {
+                if (matches == 0) {
+                    var3 = is;
                 }
 
-                if (var2 == 1) {
-                    var4 = var6;
+                if (matches == 1) {
+                    var4 = is;
                 }
 
-                ++var2;
+                ++matches;
             }
         }
 
-        if (var2 == 2 && var3.getItem() == var4.getItem() && var3.stackSize == 1 && var4.stackSize == 1
+        if (matches == 2 && var3.getItem() == var4.getItem() && var3.stackSize == 1 && var4.stackSize == 1
                 && var3.getItem().isRepairable()) {
             Item var10 = var3.getItem();
             int var12 = var10.getMaxDamage() - var3.getItemDamageForDisplay();
