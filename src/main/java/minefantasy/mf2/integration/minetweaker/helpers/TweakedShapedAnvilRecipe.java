@@ -15,7 +15,7 @@ public class TweakedShapedAnvilRecipe implements IAnvilRecipe {
     private int hammer, anvil, time, recipeWidth, recipeHeight;
     private float exp;
     private IItemStack result;
-    private IIngredient[][] ingredients;
+    public IIngredient[][] ingredients;
     private Skill skill;
     private String research, tool;
     private boolean hot;

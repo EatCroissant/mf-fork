@@ -2,6 +2,9 @@ package minefantasy.mf2.api.crafting.anvil;
 
 import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.rpg.Skill;
+import minefantasy.mf2.integration.minetweaker.helpers.TweakedShapedAnvilRecipe;
+import minetweaker.api.item.IngredientAny;
+import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -146,29 +149,35 @@ public class CraftingManagerAnvil {
 
     public ItemStack findMatchingRecipe(AnvilCraftMatrix matrix) {
         int var2 = 0;
-        ItemStack var3 = null;
-        ItemStack var4 = null;
+        ItemStack item1 = null;
+        ItemStack item2 = null;
 
-        for (int var5 = 0; var5 < matrix.getSizeInventory(); ++var5) {
-            ItemStack var6 = matrix.getStackInSlot(var5);
 
-            if (var6 != null) {
+        for (int i = 0; i < matrix.getSizeInventory(); i++) {
+            if (i % 6 == 0) System.out.println();
+            System.out.print(matrix.getStackInSlot(i) + " ");
+        }
+
+        for (int i = 0; i < matrix.getSizeInventory(); ++i) {
+            ItemStack stackInSlot = matrix.getStackInSlot(i);
+
+            if (stackInSlot != null) {
                 if (var2 == 0) {
-                    var3 = var6;
+                    item1 = stackInSlot;
                 }
 
                 if (var2 == 1) {
-                    var4 = var6;
+                    item2 = stackInSlot;
                 }
 
                 ++var2;
             }
         }
 
-        if (var2 == 2 && canRepair(var3, var4)) {
-            Item var10 = var3.getItem();
-            int var12 = var10.getMaxDamage() - var3.getItemDamageForDisplay();
-            int var7 = var10.getMaxDamage() - var4.getItemDamageForDisplay();
+        if (var2 == 2 && canRepair(item1, item2)) {
+            Item var10 = item1.getItem();
+            int var12 = var10.getMaxDamage() - item1.getItemDamageForDisplay();
+            int var7 = var10.getMaxDamage() - item2.getItemDamageForDisplay();
             int var8 = var12 + var7 + var10.getMaxDamage() * 10 / 100;
             int var9 = var10.getMaxDamage() - (var8) * 2;
 
@@ -176,7 +185,7 @@ public class CraftingManagerAnvil {
                 var9 = 0;
             }
 
-            return new ItemStack(var3.getItem(), 1, var9);
+            return new ItemStack(item1.getItem(), 1, var9);
         } else {
             Iterator var11 = this.recipes.iterator();
             IAnvilRecipe var13;
@@ -214,19 +223,64 @@ public class CraftingManagerAnvil {
         String toolType = "hammer";
         ItemStack var3 = null;
         ItemStack var4 = null;
+        int size = this.recipes.size();
+
+        // Добавил этот код, он проходит, в логе пишется, но рецепт не отображается
+        for (Object o : this.recipes) {
+            IAnvilRecipe recipe = (IAnvilRecipe) o;
+            if ( o instanceof TweakedShapedAnvilRecipe ) {
+                TweakedShapedAnvilRecipe ri = (TweakedShapedAnvilRecipe) o;
+                if ((recipe.getRecipeSize() == matrix.getSizeInventory())) {
+                    boolean match = true;
+                    int matches = 0;
+                    // По рецептам
+                    for (int k = 0; k < recipe.getRecipeSize(); k++) {
+                        ItemStack is = MineTweakerMC.getItemStack(ri.ingredients[k / 6][k % 6]).copy();
+                        ItemStack is2 = matrix.getStackInRowAndColumn(k % 6,k / 6 ) ;
+                        if (is == null) matches++;
+                        else if (is2 != null && is2.getItem() != null && is.getItem() != null && is.getItem().equals(is2.getItem())) {
+                            if (is.getItemDamage() == is2.getItemDamage()) matches++;
+                        } else {
+                            match = false;
+                            continue;
+                        }
+                    }
+
+                    if (match && matches == matrix.getSizeInventory()) {
+                        System.out.print(1);
+                        time = recipe.getCraftTime();
+                        hammer = recipe.getRecipeHammer();
+                        anvi = recipe.getAnvil();
+                        hot = recipe.outputHot();
+                        toolType = recipe.getToolType();
+
+                        if (!recipe.useCustomTiers()) {
+                            anvil.setForgeTime(time);
+                            anvil.setHammerUsed(hammer);
+                            anvil.setRequiredAnvil(anvi);
+                        }
+                        anvil.setHotOutput(hot);
+                        anvil.setToolType(toolType);
+                        if (!recipe.getResearch().equalsIgnoreCase("tier")) {
+                            anvil.setResearch(recipe.getResearch());
+                        }
+                        anvil.setSkill(recipe.getSkill());
+
+                        return recipe.getRecipeOutput();
+                    }
+                }
+            }
+        }
+
+
 
         for (int var5 = 0; var5 < matrix.getSizeInventory(); ++var5) {
             ItemStack var6 = matrix.getStackInSlot(var5);
-
             if (var6 != null) {
-                if (var2 == 0) {
+                if (var2 == 0)
                     var3 = var6;
-                }
-
-                if (var2 == 1) {
+                if (var2 == 1)
                     var4 = var6;
-                }
-
                 ++var2;
             }
         }
@@ -245,41 +299,42 @@ public class CraftingManagerAnvil {
 
             return new ItemStack(var3.getItem(), 1, var9);
         } else {
-            Iterator var11 = this.recipes.iterator();
-            IAnvilRecipe var13 = null;
+            Iterator recipies = this.recipes.iterator();
+            IAnvilRecipe newAnvil = null;
 
-            while (var11.hasNext()) {
-                IAnvilRecipe rec = (IAnvilRecipe) var11.next();
-
+            while (recipies.hasNext()) {
+                IAnvilRecipe rec = (IAnvilRecipe) recipies.next();
+                ItemStack is = rec.getCraftingResult(matrix);
                 if (rec.matches(matrix)) {
-                    var13 = rec;
+                    newAnvil = rec;
                 }
             }
 
-            if (var13 != null) {
-                time = var13.getCraftTime();
-                hammer = var13.getRecipeHammer();
-                anvi = var13.getAnvil();
-                hot = var13.outputHot();
-                toolType = var13.getToolType();
+            if (newAnvil != null) {
+                time = newAnvil.getCraftTime();
+                hammer = newAnvil.getRecipeHammer();
+                anvi = newAnvil.getAnvil();
+                hot = newAnvil.outputHot();
+                toolType = newAnvil.getToolType();
 
-                if (!var13.useCustomTiers()) {
+                if (!newAnvil.useCustomTiers()) {
                     anvil.setForgeTime(time);
                     anvil.setHammerUsed(hammer);
                     anvil.setRequiredAnvil(anvi);
                 }
                 anvil.setHotOutput(hot);
                 anvil.setToolType(toolType);
-                if (!var13.getResearch().equalsIgnoreCase("tier")) {
-                    anvil.setResearch(var13.getResearch());
+                if (!newAnvil.getResearch().equalsIgnoreCase("tier")) {
+                    anvil.setResearch(newAnvil.getResearch());
                 }
-                anvil.setSkill(var13.getSkill());
+                anvil.setSkill(newAnvil.getSkill());
 
-                return var13.getCraftingResult(matrix);
+                return newAnvil.getCraftingResult(matrix);
             }
             return null;
         }
     }
+
 
     /**
      * returns the List<> of all recipes
