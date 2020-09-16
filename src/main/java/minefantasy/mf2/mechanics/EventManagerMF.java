@@ -366,28 +366,6 @@ public class EventManagerMF {
                 && event.source.getEntity() != null && event.source.getEntity() instanceof EntityDragon) {
             PlayerTickHandlerMF.addDragonEnemyPts((EntityPlayer) event.entityLiving, -1);
         }
-        Entity dropper = event.entity;
-
-        boolean useArrows = true;
-        try {
-            Class.forName("minefantasy.mf2.api.helpers.ArrowEffectsMF");
-        } catch (Exception e) {
-            useArrows = false;
-        }
-        if (dropper != null && useArrows && ConfigExperiment.stickArrows && !dropper.worldObj.isRemote) {
-            ArrayList<ItemStack> stuckArrows = (ArrayList<ItemStack>) ArrowEffectsMF.getStuckArrows(dropper);
-            if (stuckArrows != null && !stuckArrows.isEmpty()) {
-                Iterator<ItemStack> list = stuckArrows.iterator();
-
-                while (list.hasNext()) {
-                    ItemStack arrow = list.next();
-                    if (arrow != null) {
-                        dropper.entityDropItem(arrow, 0.0F);
-                    }
-                }
-            }
-        }
-
     }
 
     @SubscribeEvent
