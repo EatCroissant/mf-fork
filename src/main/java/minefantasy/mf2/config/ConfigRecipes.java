@@ -112,8 +112,9 @@ public class ConfigRecipes extends ConfigurationBaseMF {
         Skill skill = RPGElements.getSkillByName(recipe[0]);
         ItemStack output = getItemStackFromName(recipe[1]);
         if(output == null)return null;
+        boolean hot = recipe[3].equals("true") || recipe[3].equals("+");
         Object[] matrix = getRecipe(recipe, 8,6);
-        return MineFantasyAPI.addAnvilRecipe(skill, output, recipe[2].equals("?")?"":recipe[2], recipe[3].equals("?") || recipe[3].equals("false") ?false:true,
+        return MineFantasyAPI.addAnvilRecipe(skill, output, recipe[2].equals("?")?"":recipe[2], hot,
                 recipe[4].equals("?")?"":recipe[4], Integer.parseInt(recipe[5]), Integer.parseInt(recipe[6]), Integer.parseInt(recipe[7]), matrix);
     }
 }
