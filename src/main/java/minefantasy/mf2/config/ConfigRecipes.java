@@ -1,8 +1,8 @@
 package minefantasy.mf2.config;
 
-import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.Skill;
@@ -14,18 +14,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Property;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
 //sample :     S:item1="artisanry minecraft:apple ? hand ? 0 5 minecraft:iron null null null null null null null null null null null null null null null"
+// Skill skill, ItemStack result, String research, boolean hot, String toolType, int hammerType, int anvil, int forgeTime, Object... input
+//sample :     S:item1="artisanry minecraft:apple ? (true/?|false/anything) hammer 0 2 5 minecraft:iron minecraft:iron null null null null null null null null null null null null null null null null null null null null null null"
 public class ConfigRecipes extends ConfigurationBaseMF {
 
     public static final String CARPENTER = "Carpenter";
-    public static final String CATEGORY_PENALTIES = "Penalties";
+    public static final String ANVIL = "Anvil";
 
     @Override
     protected void loadConfig() {
         for (Map.Entry<String, Property> entry : config.getCategory(CARPENTER).getValues().entrySet()) {
             parse(entry.getValue().getString());
+        }
+        for (Map.Entry<String, Property> entry : config.getCategory(ANVIL).getValues().entrySet()) {
+            parseAnvil(entry.getValue().getString());
         }
     }
 
@@ -69,18 +73,18 @@ public class ConfigRecipes extends ConfigurationBaseMF {
         return null;
     }
 
-    public static Object[] getRecipe(String[] parames) {
+    public static Object[] getRecipe(String[] params, int offset, int length) {
         HashMap<Item, Character> association = new HashMap<Item, Character>();
         String[] map = {"","","",""};
         int charter = (int)'a';
-        for (int i = 7; i < parames.length; i++) {
-            ItemStack is = getItemStackFromName(parames[i]);
+        for (int i = offset; i < params.length; i++) {
+            ItemStack is = getItemStackFromName(params[i]);
             if (is == null) {
-                map[(i - 7) % 4] += " ";
+                map[(i - offset) / length] += " ";
             } else if (is.getItem() != null && association.containsKey(is.getItem())) {
-                map[(i - 7) % 4] += association.get(is.getItem());
+                map[(i - offset) / length] += association.get(is.getItem());
             } else {
-                map[(i - 7) % 4] += (char) charter;
+                map[(i - offset) / length] += (char) charter;
                 association.put(is.getItem(), (char) charter++);
             }
         }
@@ -99,8 +103,17 @@ public class ConfigRecipes extends ConfigurationBaseMF {
         Skill skill = RPGElements.getSkillByName(recipe[0]);
         ItemStack output = getItemStackFromName(recipe[1]);
         if(output == null)return null;
-        Object[] matrix = getRecipe(recipe);
+        Object[] matrix = getRecipe(recipe, 7, 4);
         return MineFantasyAPI.addCarpenterRecipe(skill, output, recipe[2].equals("?")?"":recipe[2], recipe[3].equals("?")?"":recipe[3],
                 recipe[4].equals("?")?"":recipe[4], Integer.parseInt(recipe[5]), Integer.parseInt(recipe[6]), matrix);
+    }
+    public static IAnvilRecipe parseAnvil(String config) {
+        String[] recipe = config.split("\\s+");
+        Skill skill = RPGElements.getSkillByName(recipe[0]);
+        ItemStack output = getItemStackFromName(recipe[1]);
+        if(output == null)return null;
+        Object[] matrix = getRecipe(recipe, 8,6);
+        return MineFantasyAPI.addAnvilRecipe(skill, output, recipe[2].equals("?")?"":recipe[2], recipe[3].equals("?") || recipe[3].equals("false") ?true:false,
+                recipe[4].equals("?")?"":recipe[4], Integer.parseInt(recipe[5]), Integer.parseInt(recipe[6]), Integer.parseInt(recipe[7]), matrix);
     }
 }
