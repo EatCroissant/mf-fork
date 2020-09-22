@@ -1,5 +1,6 @@
 package minefantasy.mf2.commands;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.helpers.ToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
@@ -8,6 +9,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.RegistryNamespaced;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -75,6 +77,11 @@ public class CommandMF implements ICommand {
                             processUnbreakableCommand(strings, player, equippedItem);
                             break;
                     }
+                }
+                else if(strings[0].equalsIgnoreCase("get_data")){
+                    ItemStack is = player.getHeldItem();
+                    if(is!=null && is.getItem()!=null)
+                    player.addChatMessage(new ChatComponentText(GameRegistry.findUniqueIdentifierFor(is.getItem()).toString()));
                 }
             }
         }
