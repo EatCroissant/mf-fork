@@ -65,6 +65,7 @@ public class MineFantasyII {
         return new Configuration(new File(event.getModConfigurationDirectory(), "MineFantasyII/" + name + ".cfg"));
     }
 
+
     public static boolean isBukkitServer() {
         return isBukkitServer;
     }
@@ -88,7 +89,7 @@ public class MineFantasyII {
     public static boolean isNameModder(String name) {
         return name.equals("Galactic_Hiker") || name.equals("tim4200") || name.equals("Sirse");
     }
-
+    Configuration cfgs;
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
@@ -100,7 +101,7 @@ public class MineFantasyII {
         new ConfigHardcore().setConfig(getCfg(event, "Hardcore"));
         new ConfigIntegration().setConfig(getCfg(event, "Integration"));
         new ConfigTools().setConfig(getCfg(event, "Tools"));
-        new ConfigRecipes().setConfig(getCfg(event, "Recipes"));
+        cfgs = getCfg(event, "Recipes");
         new ConfigWeapon().setConfig(getCfg(event, "Weapons"));
         new ConfigStamina().setConfig(getCfg(event, "Stamina_System"));
         new ConfigItemRegistry().setConfig(getCfg(event, "Item_Registry"));
@@ -165,6 +166,8 @@ public class MineFantasyII {
         proxy.postInit();
         proxy.registerTickHandlers();
         MetalMaterial.addHeatables();
+
+        new ConfigRecipes().setConfig(cfgs);
     }
 
     @EventHandler
