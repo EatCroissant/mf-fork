@@ -8,6 +8,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.RegistryNamespaced;
 import net.minecraft.util.StatCollector;
@@ -80,8 +81,16 @@ public class CommandMF implements ICommand {
                 }
                 else if(strings[0].equalsIgnoreCase("get_data")){
                     ItemStack is = player.getHeldItem();
-                    if(is!=null && is.getItem()!=null)
-                    player.addChatMessage(new ChatComponentText(GameRegistry.findUniqueIdentifierFor(is.getItem()).toString()));
+                    String message = "";
+                    if(is!=null && is.getItem()!=null) {
+                        String uid = GameRegistry.findUniqueIdentifierFor(is.getItem()).toString();
+                        NBTTagCompound c = is.getTagCompound();
+                        if(c!=null) message = uid+":"+is.getItemDamage() +":"+c.toString();
+                        else if(is.getItemDamage()>0)message = uid+":"+is.getItemDamage();
+                        else message = uid;
+                    }
+                    if(message.equals(""))message="No held item";
+                     player.addChatMessage(new ChatComponentText(message));
                 }
             }
         }
