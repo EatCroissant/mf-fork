@@ -74,24 +74,24 @@ public class ConfigRecipes extends ConfigurationBaseMF {
     }
 
     public static Object[] getRecipe(String[] params, int offset, int length) {
-        HashMap<Item, Character> association = new HashMap<Item, Character>();
+        HashMap<ItemStack, Character> association = new HashMap<ItemStack, Character>();
         String[] map = {"","","",""};
         int charter = (int)'a';
         for (int i = offset; i < params.length; i++) {
             ItemStack is = getItemStackFromName(params[i]);
             if (is == null) {
                 map[(i - offset) / length] += " ";
-            } else if (is.getItem() != null && association.containsKey(is.getItem())) {
-                map[(i - offset) / length] += association.get(is.getItem());
+            } else if ( association.containsKey(is)) {
+                map[(i - offset) / length] += association.get(is);
             } else {
                 map[(i - offset) / length] += (char) charter;
-                association.put(is.getItem(), (char) charter++);
+                association.put(is, (char) charter++);
             }
         }
         ArrayList objs = new ArrayList();
         Collections.addAll(objs, map);
-        Set<Map.Entry<Item, Character>> entries = association.entrySet();
-        for (Map.Entry<Item, Character> entity : entries) {
+        Set<Map.Entry<ItemStack, Character>> entries = association.entrySet();
+        for (Map.Entry<ItemStack, Character> entity : entries) {
             objs.add(entity.getValue());
             objs.add(entity.getKey());
         }
