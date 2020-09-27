@@ -26,10 +26,15 @@ public class ConfigRecipes extends ConfigurationBaseMF {
     @Override
     protected void loadConfig() {
         for (Map.Entry<String, Property> entry : config.getCategory(CARPENTER).getValues().entrySet()) {
-            parse(entry.getValue().getString());
+            if(parse(entry.getValue().getString()) == null){
+                System.out.println("Cannot process carpenter recipe: "+entry.toString());
+            }
         }
         for (Map.Entry<String, Property> entry : config.getCategory(ANVIL).getValues().entrySet()) {
-            parseAnvil(entry.getValue().getString());
+            if(parseAnvil(entry.getValue().getString()) == null){
+                System.out.println("Cannot process anvil recipe: "+entry.toString());
+            }
+
         }
     }
 
@@ -41,9 +46,16 @@ public class ConfigRecipes extends ConfigurationBaseMF {
             if(name.contains(":")){
                 String[] sp = name.split(":");
                 if(sp.length>=2) {
+                    int meta =(sp.length>2 && Integer.parseInt(sp[2]) > 0)? Integer.parseInt(sp[2]): 0;
+
                     ItemStack is = GameRegistry.findItemStack(sp[0],sp[1], 1);
-                    if(sp.length>2 && is !=null && Integer.getInteger(sp[2]) > 0 ){
-                        new ItemStack(is.getItem(),1,Integer.getInteger(sp[2]));
+
+                    Item isi = GameRegistry.findItem(sp[0],sp[1]);
+                    Block isb = GameRegistry.findBlock(sp[0],sp[1]);
+
+                    if(meta>0){
+                        is.setItemDamage(meta);
+                        return is;
                     }
                     return is;
                 }
@@ -104,6 +116,8 @@ public class ConfigRecipes extends ConfigurationBaseMF {
         ItemStack output = getItemStackFromName(recipe[1]);
         if(output == null)return null;
         Object[] matrix = getRecipe(recipe, 7, 4);
+
+        if(matrix.length==4)return null;
         return MineFantasyAPI.addCarpenterRecipe(skill, output, recipe[2].equals("?")?"":recipe[2], recipe[3].equals("?")?"":recipe[3],
                 recipe[4].equals("?")?"":recipe[4], Integer.parseInt(recipe[5]), Integer.parseInt(recipe[6]), matrix);
     }
@@ -114,6 +128,7 @@ public class ConfigRecipes extends ConfigurationBaseMF {
         if(output == null)return null;
         boolean hot = recipe[3].equals("true") || recipe[3].equals("+");
         Object[] matrix = getRecipe(recipe, 8,6);
+        if(matrix.length==4)return null;
         return MineFantasyAPI.addAnvilRecipe(skill, output, recipe[2].equals("?")?"":recipe[2], hot,
                 recipe[4].equals("?")?"":recipe[4], Integer.parseInt(recipe[5]), Integer.parseInt(recipe[6]), Integer.parseInt(recipe[7]), matrix);
     }
