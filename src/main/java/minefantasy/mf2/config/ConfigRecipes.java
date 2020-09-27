@@ -43,7 +43,7 @@ public class ConfigRecipes extends ConfigurationBaseMF {
                 if(sp.length>=2) {
                     ItemStack is = GameRegistry.findItemStack(sp[0],sp[1], 1);
                     if(sp.length>2 && is !=null && Integer.getInteger(sp[2]) > 0 ){
-                        new ItemStack(is.getItem(),1,Integer.getInteger(sp[2]));
+                        is.setItemDamage(Integer.getInteger(sp[2]));
                     }
                     return is;
                 }
