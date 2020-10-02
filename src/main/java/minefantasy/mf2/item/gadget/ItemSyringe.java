@@ -35,7 +35,7 @@ public class ItemSyringe extends ItemPotion {
 
     public ItemSyringe() {
         super();
-        this.setMaxStackSize(16);
+        this.setMaxStackSize(1);
         String name = "syringe";
         this.setCreativeTab(CreativeTabMF.tabGadget);
         setTextureName("minefantasy2:Other/" + name);

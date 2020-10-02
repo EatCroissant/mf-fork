@@ -85,7 +85,7 @@ public class ToolListMF {
     public static Item skillbook_provisioning = new ItemSkillBook("skillbook_provisioning", SkillList.provisioning);
     public static Item skillbook_engineering = new ItemSkillBook("skillbook_engineering", SkillList.engineering);
     public static Item skillbook_combat = new ItemSkillBook("skillbook_combat", SkillList.combat);
-
+//
     public static Item skillbook_artisanry2 = new ItemSkillBook("skillbook_artisanry2", SkillList.artisanry).setMax();
     public static Item skillbook_construction2 = new ItemSkillBook("skillbook_construction2", SkillList.construction)
             .setMax();
@@ -129,10 +129,10 @@ public class ToolListMF {
         CustomToolListMF.load();
         CustomArmourListMF.load();
 
-        ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH,
-                new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 5, 50));
-        ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH,
-                new WeightedRandomChestContent(new ItemStack(skillbook_construction), 1, 1, 10));
+//        ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 5, 50));
+//        ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_construction), 1, 1, 10));
         ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH,
                 new WeightedRandomChestContent(new ItemStack(ArmourListMF.leatherapron), 1, 1, 10));
 
@@ -183,17 +183,17 @@ public class ToolListMF {
         ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CROSSING,
                 new WeightedRandomChestContent(new ItemStack(loot_sack_rare), 1, 1, 2));
 
-        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
-                new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 2, 6, 10));
-        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
-                new WeightedRandomChestContent(new ItemStack(skillbook_construction), 2, 6, 10));
-        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
-                new WeightedRandomChestContent(new ItemStack(skillbook_provisioning), 2, 6, 10));
-        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
-                new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 4, 8));
-
-        ChestGenHooks.addItem(LootTypes.DWARVEN_STUDY,
-                new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 1, 20));
+//        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 2, 6, 10));
+//        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_construction), 2, 6, 10));
+//        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_provisioning), 2, 6, 10));
+//        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 4, 8));
+//
+//        ChestGenHooks.addItem(LootTypes.DWARVEN_STUDY,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 1, 20));
         ChestGenHooks.addItem(LootTypes.DWARVEN_STUDY,
                 new WeightedRandomChestContent(new ItemStack(Items.paper), 5, 36, 100));
         ChestGenHooks.addItem(LootTypes.DWARVEN_STUDY,
@@ -201,8 +201,8 @@ public class ToolListMF {
         ChestGenHooks.addItem(LootTypes.DWARVEN_STUDY,
                 new WeightedRandomChestContent(new ItemStack(Items.book), 5, 26, 80));
 
-        ChestGenHooks.addItem(LootTypes.DWARVEN_FORGE,
-                new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 1, 40));
+//        ChestGenHooks.addItem(LootTypes.DWARVEN_FORGE,
+//                new WeightedRandomChestContent(new ItemStack(skillbook_artisanry), 1, 1, 40));
         ChestGenHooks.addItem(LootTypes.DWARVEN_FORGE,
                 new WeightedRandomChestContent(new ItemStack(Items.coal), 5, 17, 100));
         ChestGenHooks.addItem(LootTypes.DWARVEN_FORGE,
@@ -218,8 +218,7 @@ public class ToolListMF {
                 new WeightedRandomChestContent(new ItemStack(BlockListMF.repair_advanced), 1, 1, 50));
         ChestGenHooks.addItem(LootTypes.DWARVEN_ARMOURY,
                 new WeightedRandomChestContent(new ItemStack(ComponentListMF.coke), 1, 10, 60));
-        ChestGenHooks.addItem(LootTypes.DWARVEN_ARMOURY,
-                new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 1, 40));
+//        ChestGenHooks.addItem(LootTypes.DWARVEN_ARMOURY, new WeightedRandomChestContent(new ItemStack(skillbook_engineering), 1, 1, 40));
         ChestGenHooks.addItem(LootTypes.DWARVEN_ARMOURY,
                 new WeightedRandomChestContent(new ItemStack(ComponentListMF.bronze_gears), 1, 9, 30));
         ChestGenHooks.addItem(LootTypes.DWARVEN_ARMOURY,

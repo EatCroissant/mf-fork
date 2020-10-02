@@ -476,37 +476,9 @@ public class EventManagerMF {
     private void dropBook(EntityLivingBase dead, int id) {
         if (dead.worldObj.isRemote)
             return;
+
         Item book = null;
-        if (id == 0) {
-            float chance = random.nextFloat();
-            if (chance > 0.75F) {
-                book = ToolListMF.skillbook_engineering;
-            } else {
-                book = ToolListMF.skillbook_provisioning;
-            }
-        } else if (id == 1 && random.nextInt(5) == 0) {
-            float chance = random.nextFloat();
-            if (chance > 0.9F) {
-                book = ToolListMF.skillbook_engineering;
-            } else if (chance > 0.6F) {
-                book = ToolListMF.skillbook_artisanry;
-            } else if (chance > 0.3F) {
-                book = ToolListMF.skillbook_construction;
-            } else {
-                book = ToolListMF.skillbook_provisioning;
-            }
-        } else if (id == 2 && random.nextInt(25) == 0) {
-            float chance = random.nextFloat();
-            if (chance > 0.9F) {
-                book = ToolListMF.skillbook_engineering;
-            } else if (chance > 0.6F) {
-                book = ToolListMF.skillbook_artisanry;
-            } else if (chance > 0.3F) {
-                book = ToolListMF.skillbook_construction;
-            } else {
-                book = ToolListMF.skillbook_provisioning;
-            }
-        }
+
         if (book != null) {
             dead.entityDropItem(new ItemStack(book), 0F);
         }

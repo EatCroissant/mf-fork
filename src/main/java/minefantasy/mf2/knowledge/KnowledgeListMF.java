@@ -9,6 +9,7 @@ import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.refine.Alloy;
 import minefantasy.mf2.api.rpg.SkillList;
 import minefantasy.mf2.block.list.BlockListMF;
+import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.*;
 import minefantasy.mf2.material.MetalMaterial;
@@ -152,8 +153,9 @@ public class KnowledgeListMF {
                 .registerStat().setUnlocked();
         research = (new InformationBase("research", 1, 1, 0, ToolListMF.researchBook, (InformationBase) null))
                 .registerStat().setUnlocked();
-        talisman = (new InformationBase("talisman", 4, 2, 0, ComponentListMF.talisman_lesser, research)).registerStat()
-                .setUnlocked();
+        if (!ConfigHardcore.HCCRemoveTalismansCraft) {
+            talisman = (new InformationBase("talisman", 4, 2, 0, ComponentListMF.talisman_lesser, research)).registerStat().setUnlocked();
+        }
         ores = (new InformationBase("ores", 1, -2, 0, BlockListMF.oreCopper, (InformationBase) null)).registerStat()
                 .setUnlocked();
         plants = (new InformationBase("plants", 1, -3, 0, BlockListMF.log_ironbark, ores)).registerStat().setUnlocked();

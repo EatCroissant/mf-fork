@@ -241,9 +241,9 @@ public class ComponentListMF {
         RandomOre.addOre(new ItemStack(sulfur), 10F, Blocks.netherrack, -1, 0, 512, false);
         RandomOre.addOre(new ItemStack(Items.glowstone_dust), 5F, Blocks.netherrack, -1, 0, 512, false);
         RandomOre.addOre(new ItemStack(Items.quartz), 5F, Blocks.netherrack, -1, 0, 512, false);
-        RandomOre.addOre(new ItemStack(Items.blaze_powder), 5F, Blocks.netherrack, -1, 0, 512, false);
         RandomOre.addOre(new ItemStack(Items.nether_wart), 1F, Blocks.netherrack, -1, 0, 512, false);
-        RandomOre.addOre(new ItemStack(Items.nether_star), 0.01F, Blocks.netherrack, -1, 0, 512, false);
+//        RandomOre.addOre(new ItemStack(Items.blaze_powder), 5F, Blocks.netherrack, -1, 0, 512, false);
+//        RandomOre.addOre(new ItemStack(Items.nether_star), 0.01F, Blocks.netherrack, -1, 0, 512, false);
 
         RandomDigs.addOre(new ItemStack(Blocks.skull, 1, 1), 0.1F, Blocks.soul_sand, 3, 0, 256, false);
         RandomDigs.addOre(new ItemStack(Items.bone), 5F, Blocks.dirt, -1, 0, 256, false);
