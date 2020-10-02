@@ -11,6 +11,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Property;
 
 import java.lang.reflect.Field;
@@ -42,21 +45,27 @@ public class ConfigRecipes extends ConfigurationBaseMF {
     static Block block = Blocks.brick_block;
 
     static ItemStack getItemStackFromName(String name) {
+        int multiple_symbol = name.indexOf('*');
+        int stackSize = multiple_symbol != -1 ? Integer.parseInt(name.substring(0,multiple_symbol)):1;
+        name=name.substring(multiple_symbol+1);
         try {
             if(name.contains(":")){
                 String[] sp = name.split(":");
                 if(sp.length>=2) {
                     int meta =(sp.length>2 && Integer.parseInt(sp[2]) > 0)? Integer.parseInt(sp[2]): 0;
-
-                    ItemStack is = GameRegistry.findItemStack(sp[0],sp[1], 1);
+                    NBTTagCompound tag = (sp.length>3)? (NBTTagCompound) JsonToNBT.func_150315_a(sp[3]):null;
+                    ItemStack is = GameRegistry.findItemStack(sp[0],sp[1], stackSize);
 
                     Item isi = GameRegistry.findItem(sp[0],sp[1]);
                     Block isb = GameRegistry.findBlock(sp[0],sp[1]);
 
                     if(meta>0){
                         is.setItemDamage(meta);
-                        return is;
                     }
+                    if(tag !=null){
+                        is.setTagCompound(tag);
+                    }
+
                     return is;
                 }
             }
@@ -73,17 +82,18 @@ public class ConfigRecipes extends ConfigurationBaseMF {
             Block b;
             if (c == Item.class) {
                 i = (Item) itemOrBlock.get(item);
-                return new ItemStack(i);
+                return new ItemStack(i, stackSize);
             }
             if (c == Block.class) {
                 b = (Block) itemOrBlock.get(block);
-                return new ItemStack(b);
+                return new ItemStack(b, stackSize);
             }
         } catch (Exception e) {
             return null;
         }
         return null;
     }
+
 
     public static Object[] getRecipe(String[] params, int offset, int length) {
         HashMap<ItemStack, Character> association = new HashMap<ItemStack, Character>();
