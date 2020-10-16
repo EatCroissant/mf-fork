@@ -4,7 +4,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
-import minefantasy.mf2.api.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.armour.ItemArmourMFBase;
 import minefantasy.mf2.api.helpers.ArmourCalculator;

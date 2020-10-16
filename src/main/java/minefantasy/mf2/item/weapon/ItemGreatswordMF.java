@@ -123,6 +123,6 @@ public class ItemGreatswordMF extends ItemHeavyWeaponMF {
 
     @Override
     public float getCounterDamage() {
-        return 0.5F;
+        return 0.75F;
     }
 }

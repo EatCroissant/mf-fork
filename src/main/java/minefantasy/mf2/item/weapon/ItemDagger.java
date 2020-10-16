@@ -119,7 +119,7 @@ public class ItemDagger extends ItemWeaponMF {
 
     @Override
     public float getCounterDamage() {
-        return 1.5F;
+        return 2.25F;
     }
 
     @Override

@@ -34,7 +34,7 @@ public class ItemMaceMF extends ItemWeaponMF {
     public void onProperHit(EntityLivingBase user, ItemStack weapon, Entity hit, float dam) {
         if (!user.worldObj.isRemote && user.getRNG().nextInt(5) == 0) {
             if (hit instanceof EntityLivingBase) {
-                ((EntityLivingBase) hit).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
+                ((EntityLivingBase) hit).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40, 1));
             }
         }
         super.onProperHit(user, weapon, hit, dam);

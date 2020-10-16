@@ -43,8 +43,8 @@ public class ItemWarhammerMF extends ItemHeavyWeaponMF {
             hit.worldObj.createExplosion(user, hit.posX, hit.posY, hit.posZ, 0.0F, false);
             TacticalManager.knockbackEntity(hit, user, 2.0F, 1.5F);
             if (hit instanceof EntityLivingBase) {
-                ((EntityLivingBase) hit).addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 10));
-                ((EntityLivingBase) hit).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 1));
+                ((EntityLivingBase) hit).addPotionEffect(new PotionEffect(Potion.blindness.id, 40, 1));
+                ((EntityLivingBase) hit).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40, 1));
             }
         }
         super.onProperHit(user, weapon, hit, dam);

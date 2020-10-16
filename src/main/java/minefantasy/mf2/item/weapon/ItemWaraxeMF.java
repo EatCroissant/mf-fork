@@ -80,8 +80,8 @@ public class ItemWaraxeMF extends ItemWeaponMF {
             }
             if (properHit) {
                 if (!entityHit.isPotionActive(Potion.moveSlowdown.id)) {
-                    entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 400, 3));
-                    entityHit.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 1));
+                    entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40, 3));
+                    entityHit.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 1));
                 }
 
                 entityHitting.fallDistance -= fallBonus;
@@ -97,8 +97,8 @@ public class ItemWaraxeMF extends ItemWeaponMF {
                 }
                 if (properHit) {
                     if (!entityHit.isPotionActive(Potion.moveSlowdown.id)) {
-                        entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 3));
-                        entityHit.addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 0));
+                        entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40, 3));
+                        entityHit.addPotionEffect(new PotionEffect(Potion.confusion.id, 40, 0));
                     }
                 }
             }

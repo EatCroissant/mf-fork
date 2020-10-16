@@ -198,19 +198,6 @@ public class BlockComponent extends BlockContainer {
     }
 
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileEntityComponent) {
-            if (((TileEntityComponent) tile).item != null) {
-                ItemStack item = ((TileEntityComponent) tile).item.copy();
-                item.stackSize = 1;
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @Override
     public Item getItemDropped(int meta, Random rand, int fortune) {
         return null;
     }
