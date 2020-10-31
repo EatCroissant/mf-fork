@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.item.armour.ArmourDesign;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -28,13 +29,13 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
     public String texture;
     public float armourWeight;
     public ArmourMaterialMF material;
-    public ArmourDesign design;
+    public minefantasy.mf2.item.armour.ArmourDesign design;
     public float DT;
     protected float suitBulk;
     private int piece;
     private int baseRating;
 
-    public ItemArmourMFBase(String name, ArmourMaterialMF material, ArmourDesign AD, int slot, String tex) {
+    public ItemArmourMFBase(String name, ArmourMaterialMF material, minefantasy.mf2.item.armour.ArmourDesign AD, int slot, String tex) {
         super(baseMaterial, 0, slot);
         this.material = material;
         baseAR = material.baseAR;

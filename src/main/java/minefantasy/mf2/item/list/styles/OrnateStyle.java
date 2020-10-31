@@ -1,6 +1,6 @@
 package minefantasy.mf2.item.list.styles;
 
-import minefantasy.mf2.api.armour.ArmourDesign;
+import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.api.crafting.exotic.SpecialForging;
 import minefantasy.mf2.item.archery.EnumBowType;
 import minefantasy.mf2.item.archery.ItemBowMF;

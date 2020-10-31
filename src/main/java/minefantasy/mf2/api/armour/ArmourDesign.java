@@ -22,20 +22,20 @@ public class ArmourDesign {
             .calibrateTraits(1.0F, 1.0F, 0.6F).setWeightGroup(heavy);// Vulnerable to piercing
     // LIGHT ARMOUR
     public static final ArmourDesign LEATHER = new ArmourDesign("leather", "Leather", 1.0F, 1.0F, 10F, 0.25F)
-            .calibrateTraits(0.7F, 1.0F, 0.5F).setWeightGroup(light);// Slightly better blunt
+            .calibrateTraits(1.0F, 0.8F, 1.1F).setWeightGroup(light);// Slightly better blunt
     public static final ArmourDesign PADDING = new ArmourDesign("padding", "Padding", 1.0F, 1.0F, 10F, 1.00F)
-            .calibrateTraits(0.85F, 0.9F, 0.6F).setWeightGroup(light);// 10kg, Cutting resistant
+            .calibrateTraits(1.0F, 1.1F, 0.6F).setWeightGroup(light);// 10kg, Cutting resistant
     public static final ArmourDesign STUDDED = new ArmourDesign("studded", "Studded", 0.8F, 1.0F, 10F, 0.25F)
-            .calibrateTraits(0.6F, 1.2F, 0.9F).setWeightGroup(light);// 10kg, Blunt protection
+            .calibrateTraits(1.0F, 1.0F, 1.0F).setWeightGroup(light);// 10kg, Blunt protection
     // MEDIUM ARMOUR
     public static final ArmourDesign SCALEMAIL = new ArmourDesign("scalemail", "Scalemail", 1.0F, 1.0F, 8F, 0.30F)
-            .calibrateTraits(1.00F, 1.00F, 1.00F).setWeightGroup(medium);// 20kg, Average
+            .calibrateTraits(1.25F, 1.00F, 0.80F).setWeightGroup(medium);// 20kg, Less piercing more cutting
     public static final ArmourDesign CHAINMAIL = new ArmourDesign("chainmail", "Chainmail", 1.0F, 1.0F, 8F, 0.65F)
-            .calibrateTraits(1.20F, 0.60F, 1.20F).setWeightGroup(medium);// 20kg, Less blunt more piercing
+            .calibrateTraits(1.00F, 0.80F, 1.25F).setWeightGroup(medium);// 20kg, Less blunt more piercing
+    public static final ArmourDesign SPLINTMAIL = new ArmourDesign("splintmail", "Splintmail", 1.2F, 1.0F, 10F, 0.75F)
+            .calibrateTraits(0.80F, 1.25F, 1.00F).setWeightGroup(medium);// 26kg, Less cutting more blunt
     // HEAVY ARMOUR
-    public static final ArmourDesign SPLINTMAIL = new ArmourDesign("splintmail", "Splintmail", 1.2F, 1.0F, 12F, 0.75F)
-            .calibrateTraits(1.00F, 1.00F, 1.00F).setWeightGroup(heavy);// 30kg, Average
-    public static final ArmourDesign FIELDPLATE = new ArmourDesign("fieldplate", "Fieldplate", 1.2F, 1.0F, 16F, 1.00F)
+    public static final ArmourDesign FIELDPLATE = new ArmourDesign("fieldplate", "Fieldplate", 1.2F, 1.0F, 18F, 1.00F)
             .calibrateTraits(1.25F, 1.25F, 1.00F).setWeightGroup(heavy);// 40kg, Vulnerable to piercing
     public static final ArmourDesign COGWORK = new ArmourDesign("cogwork", "Cogwork", 4.0F, 8.0F, 30F, 2.00F)
             .calibrateTraits(1.00F, 1.00F, 1.00F).setWeightGroup(heavy);// >120kg, Massive Protection

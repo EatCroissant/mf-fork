@@ -2,7 +2,7 @@ package minefantasy.mf2.entity;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import minefantasy.mf2.api.armour.ArmourDesign;
+import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.IPowerArmour;
 import minefantasy.mf2.api.helpers.*;
 import minefantasy.mf2.api.material.CustomMaterial;

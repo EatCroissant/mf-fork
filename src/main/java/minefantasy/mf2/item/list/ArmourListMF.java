@@ -1,6 +1,6 @@
 package minefantasy.mf2.item.list;
 
-import minefantasy.mf2.api.armour.ArmourDesign;
+import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import minefantasy.mf2.item.armour.ItemApron;
 import minefantasy.mf2.item.armour.ItemArmourMF;

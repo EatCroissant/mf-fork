@@ -2,6 +2,7 @@ package minefantasy.mf2.api.armour;
 
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
+import minefantasy.mf2.item.armour.ArmourDesign;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -40,7 +41,7 @@ public class CustomArmourEntry {
      * @param piece    the item to register
      * @param template the ArmourDesign to work off
      */
-    public static void registerItem(Item piece, ArmourDesign template) {
+    public static void registerItem(Item piece, minefantasy.mf2.item.armour.ArmourDesign template) {
         registerItem(piece, template, 1.0F, template.getGroup());
     }
 
@@ -52,7 +53,7 @@ public class CustomArmourEntry {
      * @param template  the ArmourDesign to work off
      * @param weightMod the multiplier for the tier weight if a tier is heavier or lighter
      */
-    public static void registerItem(Item piece, ArmourDesign template, float weightMod, String weightType) {
+    public static void registerItem(Item piece, minefantasy.mf2.item.armour.ArmourDesign template, float weightMod, String weightType) {
         float divider = 0.25F;
         if (piece instanceof ItemArmor) {
             divider = ArmourCalculator.sizes[((ItemArmor) piece).armorType];
@@ -95,7 +96,7 @@ public class CustomArmourEntry {
         if (entry != null) {
             return entry.AC;
         }
-        ArmourDesign deft = ArmourCalculator.getDefaultAD(piece);
+        minefantasy.mf2.item.armour.ArmourDesign deft = ArmourCalculator.getDefaultAD(piece);
         return deft.getGroup();
     }
 

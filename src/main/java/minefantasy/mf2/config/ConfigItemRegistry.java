@@ -1,6 +1,6 @@
 package minefantasy.mf2.config;
 
-import minefantasy.mf2.api.armour.ArmourDesign;
+import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.api.armour.CustomDamageRatioEntry;
 import minefantasy.mf2.api.crafting.CustomCrafterEntry;

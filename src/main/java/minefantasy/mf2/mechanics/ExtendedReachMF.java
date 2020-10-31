@@ -3,6 +3,7 @@ package minefantasy.mf2.mechanics;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import minefantasy.mf2.config.ConfigWeapon;
 import mods.battlegear2.api.weapons.IExtendedReachWeapon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -26,7 +27,7 @@ public class ExtendedReachMF {
 
     public void tickEnd(EntityPlayer entityPlayer) {
         // If we JUST swung an Item
-        if (entityPlayer.swingProgressInt == 1) {
+        if (entityPlayer.swingProgressInt == 1 && ConfigWeapon.ranged) {
             ItemStack mainhand = entityPlayer.getCurrentEquippedItem();
             if (mainhand != null && mainhand.getItem() instanceof IExtendedReachWeapon) {
                 float extendedReach = ((IExtendedReachWeapon) mainhand.getItem()).getReachModifierInBlocks(mainhand);

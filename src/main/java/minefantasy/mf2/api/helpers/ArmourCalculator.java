@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.armour.*;
 import minefantasy.mf2.api.weapon.IDamageType;
+import minefantasy.mf2.item.armour.ArmourDesign;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -53,7 +54,7 @@ public class ArmourCalculator {
         return CustomArmourEntry.getEntryVars(armour)[1];
     }
 
-    public static ArmourDesign getDefaultAD(ItemStack armour) {
+    public static minefantasy.mf2.item.armour.ArmourDesign getDefaultAD(ItemStack armour) {
         return ArmourDesign.SOLID;
     }
 
