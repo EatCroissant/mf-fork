@@ -10,6 +10,7 @@ import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
 import minefantasy.mf2.api.mining.RandomOre;
 import minefantasy.mf2.api.tier.IToolMaterial;
+import minefantasy.mf2.block.list.BlockListMF;
 import minefantasy.mf2.config.ConfigTools;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import net.minecraft.block.Block;
@@ -70,12 +71,14 @@ public class ItemHandpick extends ItemPickaxe implements IToolMaterial {
             //double drop logic
             ArrayList<ItemStack> drops = block.getDrops(world, x, y, z, meta, ConfigTools.handpickFortune ? fortune : 0);
 
-            if (!silk && drops != null && !drops.isEmpty()) {
+
+            if (!silk && drops != null && !drops.isEmpty() && block != BlockListMF.limestone) {
                 Iterator<ItemStack> list = drops.iterator();
                 while (list.hasNext()) {
                     ItemStack drop = list.next();
                     if (isOre(block, meta) && !drop.isItemEqual(new ItemStack(block, 1, meta))
                             && !(drop.getItem() instanceof ItemBlock) && world.rand.nextFloat() < getDoubleDropChance()) {
+
                         dropItem(world, x, y, z, drop.copy());
                     }
                 }

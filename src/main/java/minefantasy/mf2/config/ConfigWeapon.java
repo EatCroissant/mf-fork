@@ -5,6 +5,7 @@ public class ConfigWeapon extends ConfigurationBaseMF {
     public static final String CATEGORY_BONUS = "Bonuses";
     public static boolean useBalance;
     public static boolean ranged;
+    public static boolean  hide_Delay;
     public static boolean breakArrowsGround;
     public static float arrowBreakMod;
     public static boolean xpTrain;
@@ -13,6 +14,10 @@ public class ConfigWeapon extends ConfigurationBaseMF {
     protected void loadConfig() {
         ranged = Boolean.parseBoolean(config.get(CATEGORY_PENALTIES, "Range of weapons", false,
                 "This option disable modification of weapon range")
+                .getString());
+
+        hide_Delay = Boolean.parseBoolean(config.get(CATEGORY_PENALTIES, "Delay hide", true,
+                "This option disable tooltip")
                 .getString());
 
         useBalance = Boolean.parseBoolean(config.get(CATEGORY_PENALTIES, "Heavy Weapon Balance", true,

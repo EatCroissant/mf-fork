@@ -299,7 +299,7 @@ public abstract class ItemWeaponMF extends ItemSword implements ISpecialDesign, 
                         StatCollector.translateToLocal("attribute.weapon.penetrateArmor")));
             }
 
-            if (this instanceof IExtendedReachWeapon) {
+            if (this instanceof IExtendedReachWeapon && ConfigWeapon.ranged) {
                 float reach = ((IExtendedReachWeapon) this).getReachModifierInBlocks(weapon);
 
                 if (reach > 0) {
@@ -313,7 +313,7 @@ public abstract class ItemWeaponMF extends ItemSword implements ISpecialDesign, 
                 }
             }
 
-            if (this instanceof IHitTimeModifier) {
+            if (this instanceof IHitTimeModifier && !ConfigWeapon.hide_Delay) {
                 int hitMod = ((IHitTimeModifier) this).getHitTime(weapon, null);
                 if (hitMod > 0) {
                     list.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted(

@@ -21,6 +21,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
@@ -90,7 +91,8 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial {
                                     newblock.dropBlockAsItem(world, blockX, blockY, blockZ, m,
                                             EnchantmentHelper.getFortuneModifier(user));
                                 }
-                                world.setBlockToAir(blockX, blockY, blockZ);
+                                if(world.getBlock(blockX, blockY, blockZ) != Blocks.bedrock)
+                                    world.setBlockToAir(blockX, blockY, blockZ);
                                 item.damageItem(1, user);
                                 ItemLumberAxe.tirePlayer(user, 1F);
                             }
