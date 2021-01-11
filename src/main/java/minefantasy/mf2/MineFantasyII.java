@@ -12,6 +12,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.integration.biomes.BIOPIntegration;
 import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.block.list.BlockListMF;
@@ -43,7 +44,7 @@ import java.io.File;
 /**
  * @author Anonymous Productions
  */
-@Mod(modid = MineFantasyII.MODID, name = MineFantasyII.NAME, dependencies = "required-after:Forge@[7.0,);" + "required-after:FML@[5.0.5,);" + "after:NotEnoughItems;" + "after:MineTweaker3;" + "after:BuildCraft|Core;" + "after:CoFHCore;" + "after:battlegear2", version = MineFantasyII.VERSION)
+@Mod(modid = MineFantasyII.MODID, name = MineFantasyII.NAME, dependencies = "required-after:Forge@[7.0,);" + "required-after:FML@[5.0.5,);" + "after:NotEnoughItems;" + "after:MineTweaker3;" + "after:BuildCraft|Core;" + "after:CoFHCore;" + "after:battlegear2" + "after", version = MineFantasyII.VERSION)
 public class MineFantasyII {
     public static final String MODID = "minefantasy2";
     public static final String NAME = "MineFantasyII";
@@ -164,7 +165,7 @@ public class MineFantasyII {
         proxy.postInit();
         proxy.registerTickHandlers();
         MetalMaterial.addHeatables();
-
+        new BIOPIntegration();
         new ConfigRecipes().setConfig(cfgs);
     }
 

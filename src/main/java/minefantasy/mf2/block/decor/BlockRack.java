@@ -7,6 +7,7 @@ import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.block.tileentity.decor.TileEntityRack;
 import minefantasy.mf2.item.list.CreativeTabMF;
 import minefantasy.mf2.network.packet.RackCommand;
+import minefantasy.mf2.util.BukkitUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -54,6 +55,10 @@ public class BlockRack extends BlockWoodDecor {
     }
 
     public static boolean interact(int slot, World world, TileEntityRack tile, EntityPlayer player) {
+        if(MineFantasyII.isBukkitServer()){
+            if(BukkitUtils.cantBreakBlock(player, tile.xCoord, tile.yCoord, tile.zCoord)) return false;
+        }
+
         if (player.isSneaking()) {
             player.openGui(MineFantasyII.instance, 0, world, tile.xCoord, tile.yCoord, tile.zCoord);
             return false;

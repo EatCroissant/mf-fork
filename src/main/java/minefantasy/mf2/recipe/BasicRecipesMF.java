@@ -146,8 +146,7 @@ public class BasicRecipesMF {
                             ComponentListMF.talisman_greater, 'B', ToolListMF.skillbook_combat,});
         }
 
-        GameRegistry.addShapedRecipe(ComponentListMF.plank.construct("ScrapWood"),
-                new Object[]{"S", "S", 'S', Items.stick,});
+        GameRegistry.addShapedRecipe(ComponentListMF.plank.construct("ScrapWood"), new Object[]{"S", "S", 'S', Items.stick,});
 
         Object rock = ConfigHardcore.HCCallowRocks ? ComponentListMF.sharp_rock : Blocks.cobblestone;
         KnowledgeListMF.dryrocksR = GameRegistry.addShapedRecipe(new ItemStack(ToolListMF.dryrocks),

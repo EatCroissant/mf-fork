@@ -100,9 +100,9 @@ public class ItemKatanaMF extends ItemHeavyWeaponMF {
         if (user.motionY < 0 && !user.onGround && (!(user instanceof EntityPlayer) || user.isSneaking())
                 && tryPerformAbility(user, cleave_cost)) {
             hurtInRange(user, 4D);
-            if (hit instanceof EntityLivingBase) {
-                ArmourCalculator.damageArmour((EntityLivingBase) hit, (int) (dam * 10));
-            }
+//            if (hit instanceof EntityLivingBase) {
+//                ArmourCalculator.damageArmour((EntityLivingBase) hit, (int) (dam * 10));
+//            }
             user.setSneaking(false);
         }
         super.onProperHit(user, weapon, hit, dam);

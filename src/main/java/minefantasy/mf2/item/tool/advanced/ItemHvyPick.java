@@ -78,11 +78,10 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial {
                         if (!(x1 + FD.offsetX == 0 && y1 + FD.offsetY == 0 && z1 + FD.offsetZ == 0)) {
                             Block newblock = world.getBlock(blockX, blockY, blockZ);
                             int m = world.getBlockMetadata(blockX, blockY, blockZ);
-
-                            if (newblock != null && user instanceof EntityPlayer
-                                    && ForgeHooks.canHarvestBlock(newblock, (EntityPlayer) user, m)
+                            if(newblock != Blocks.bedrock)
+                            if (newblock != null && user instanceof EntityPlayer && ForgeHooks.canHarvestBlock(newblock, (EntityPlayer) user, m)
                                     /*&& ForgeHooks.isToolEffective(item, newblock, m)*/) {
-                                if ((MineFantasyII.isBukkitServer()
+                                if ( (MineFantasyII.isBukkitServer()
                                         && BukkitUtils.cantBreakBlock((EntityPlayer) user, blockX, blockY, blockZ))) {
                                     continue;
                                 }
@@ -91,8 +90,8 @@ public class ItemHvyPick extends ItemPickaxe implements IToolMaterial {
                                     newblock.dropBlockAsItem(world, blockX, blockY, blockZ, m,
                                             EnchantmentHelper.getFortuneModifier(user));
                                 }
-                                if(world.getBlock(blockX, blockY, blockZ) != Blocks.bedrock)
-                                    world.setBlockToAir(blockX, blockY, blockZ);
+
+                                world.setBlockToAir(blockX, blockY, blockZ);
                                 item.damageItem(1, user);
                                 ItemLumberAxe.tirePlayer(user, 1F);
                             }

@@ -12,6 +12,22 @@ info.bow.reload="Присесть" + ПКМ для перезарядки
 info.firearm.ammo=%1$s/%2$s
 info.tooltip.moreinfo=Удерживайте [%1$s] для доп. информации
 
+material.sacredoak.name=Священного дуба
+material.cherry.name=Вишневые
+material.dark.name=Темнодревесные
+material.fir.name=Пихтовые
+material.ethereal.name=Эфирнодревесные
+material.magical.name=Волшебнодревесные
+material.mangrove.name=Мангровые
+material.palm.name=Пальмовые
+material.redwood.name=Краснодревесные
+material.willow.name=Ивовые
+material.dead.name=Мертводревесные
+material.pine.name=Сосновые
+material.hellbark.name=Адское дерево
+material.jacaranda.name=Жакаранды
+material.mahogany.name=Махагониевые
+
 attribute.kit.salvage.name=Эффективность разбора
 
 attribute.kit.repairRate.name=Шанс починки
