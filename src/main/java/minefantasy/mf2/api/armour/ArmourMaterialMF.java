@@ -15,6 +15,8 @@ public class ArmourMaterialMF {
 
     public float magicResistanceModifier = 0F;
     public float fireResistanceModifier = 0F;
+    public float iceResistanceModifier = 0F;
+    public float[] resistances;
 
     public ArmourMaterialMF(String title, int dura, float AC, int enchant, float weight) {
         name = title;
@@ -24,8 +26,18 @@ public class ArmourMaterialMF {
         armourWeight = weight;
     }
 
+    public ArmourMaterialMF setResistances(float[] resistances) {
+        this.resistances = resistances;
+        return this;
+    }
+
     public ArmourMaterialMF setMagicResistance(float magic) {
         magicResistanceModifier = magic;
+        return this;
+    }
+
+    public ArmourMaterialMF setIceResistance(float ice) {
+        iceResistanceModifier = ice;
         return this;
     }
 

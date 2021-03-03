@@ -29,6 +29,7 @@ import minefantasy.mf2.entity.mob.EntityDragon;
 import minefantasy.mf2.farming.FarmingHelper;
 import minefantasy.mf2.integration.CustomStone;
 import minefantasy.mf2.item.ClientItemsMF;
+import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
@@ -44,6 +45,7 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -594,7 +596,6 @@ public class EventManagerMF {
                             CustomMaterial material = CustomMaterial.getMaterial(s2);
                             if (material != null)
                                 hasInfo = true;
-
                             CustomToolHelper.addComponentString(event.itemStack, event.toolTip, material);
                         }
                         if (s.startsWith("Artefact-")) {
@@ -624,11 +625,16 @@ public class EventManagerMF {
                             .add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("attribute.superior.name"));
                 }
             }
+            if(event.itemStack.getItem() instanceof ItemArmourMF && ArmourCalculator.advancedDamageTypes) {
+                ((ItemArmourMF)event.itemStack.getItem()).addProtectionTraits(event.itemStack, event.toolTip, GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak));
+            }
             if (event.itemStack.getItem() instanceof ItemArmor
                     && (!(event.itemStack.getItem() instanceof ItemArmourMFBase) || ClientItemsMF.showSpecials(
                     event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips))) {
-                addArmourDR(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
+
+                //addArmourDR(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
             }
+
             if (ArmourCalculator.advancedDamageTypes && ArmourCalculator.getRatioForWeapon(event.itemStack) != null) {
                 displayWeaponTraits(ArmourCalculator.getRatioForWeapon(event.itemStack), event.toolTip);
             }

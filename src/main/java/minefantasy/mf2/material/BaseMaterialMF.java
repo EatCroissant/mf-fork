@@ -31,6 +31,10 @@ public class BaseMaterialMF {
             dragonforge, adamantium, mithril, ignotumite, mithium, enderforge;// Tiers
     public static BaseMaterialMF cogworks, compositeAlloy;// Engineer
     private static float ACrounding = 10F; // round to nearest 10
+    /**
+     * The modifier to resist elements like ice)
+     */
+    public float iceResistance=0;
     /*
      * WOOD(0, 59, 2.0F, 0.0F, 15), STONE(1, 131, 4.0F, 1.0F, 5), IRON(2, 250, 6.0F,
      * 2.0F, 14), EMERALD(3, 1561, 8.0F, 3.0F, 10), GOLD(0, 32, 12.0F, 0.0F, 22);
@@ -93,6 +97,7 @@ public class BaseMaterialMF {
     // SPECIALS
     private ArmourMaterialMF armourConversion;
     private ToolMaterial toolConversion;
+    private float[] elementalResistances;
 
     public BaseMaterialMF(String name, int tier, int durability, int harvestLevel, float hardness, float sharpness,
                           int enchantment, float weight, int lvl) {
@@ -129,22 +134,42 @@ public class BaseMaterialMF {
         weakbluesteel = addMaterial("BlueSteelWeak", -1, 300, 5, 2.5F, 0, 0.90F, 65).setForgeStats(4, 4, 4.0F, 175,
                 500);
         stone = addMaterial("Stone", 0, 50, 0, 0.1F, 0.0F, 0, 2.00F, 0).setForgeStats(0, 0, 0.75F, 0, 0);
-        tin = addMaterial("Tin", 0, 100, 0, 0.2F, 5, 0.80F, 0).setForgeStats(0, 0, 0, 85, 100);
-        pigiron = addMaterial("PigIron", 0, 250, 0, 1.5F, 3, 1.00F, 0).setForgeStats(2, 2, 2.0F, 100, 400);
-        silver = addMaterial("Silver", -1, 150, 0, 0.0F, 10, 0.70F, 0).setForgeStats(1, 1, 3F, 90, 120);
-        gold = addMaterial("Gold", -1, 150, 0, 0.0F, 25, 1.50F, 0).setForgeStats(1, 1, 3F, 90, 120);
+        tin = addMaterial("Tin", 0, 100, 0, 0.2F, 5, 0.80F, 0).setForgeStats(0, 0, 0, 85, 100)
+                                    /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.5f, .5f, .5f, 0,1f, 0.1f, 0.1f});
+        pigiron = addMaterial("PigIron", 0, 250, 0, 1.5F, 3, 1.00F, 0).setForgeStats(2, 2, 2.0F, 100, 400)
+                                    /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.3f, .7f, .2f, 0,1f, 0.1f, 0.1f});
+        silver = addMaterial("Silver", -1, 150, 0, 0.0F, 10, 0.70F, 0).setForgeStats(1, 1, 3F, 90, 120)
+        /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.6f, .5f, .4f, 0,1f, 0.1f, 0.3f});
+        gold = addMaterial("Gold", -1, 150, 0, 0.0F, 25, 1.50F, 0).setForgeStats(1, 1, 3F, 90, 120)
+                /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.2f, .2f, .2f, 0,1f, 0.3f, 0.1f});
         // goldPure = addMaterial("PureGold", -1, 50 , 0, 0.0F, 50, 2.00F,
         // 0).setRarity(1);
         ornate = addMaterial("Ornate", -1, 300, 0, 0.0F, 30, 1.00F, 30).setRarity(1).setForgeStats(1, 1, 4F, 120, 150);
-        tungsten = addMaterial("Tungsten", 2, 600, 3, 4F, 5, 1.50F, 0).setRarity(1).setForgeStats(3, 3, 5.0F, 150, 300);
+        tungsten = addMaterial("Tungsten", 2, 600, 3, 4F, 5, 1.50F, 0).setRarity(1).setForgeStats(3, 3, 5.0F, 150, 300)
+                /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.4f, .7f, .3f, 0,3f, 0.3f, 0.1f});
 
+        // TODO:AIRIMIS: CUSTOM REGISTER OF STATS FOR ARMOR? MAKE ALIMENTARY DAMAGE
         // TIERS
         // Basic / Common Materials (0-2) Levels 0-50
-        copper = addMaterial("Copper", 0, 200, 1, 1.0F, 5, 1.00F, 0).setForgeStats(0, 0, 1.0F, 95, 250); // lvl 0-4
-        bronze = addMaterial("Bronze", 1, 300, 2, 1.5F, 5, 1.00F, 5).setForgeStats(1, 1, 2.5F, 100, 250); // lvl 5-14
-        iron = addMaterial("Iron", 2, 500, 2, 2.0F, 5, 1.00F, 15).setForgeStats(2, 2, 2.0F, 90, 250); // lvl 15-24
-        steel = addMaterial("Steel", 3, 750, 2, 2.5F, 10, 1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 250); // lvl 25-39
+        copper = addMaterial("Copper", 0, 200, 1, 1.0F, 5, 1.00F, 0).setForgeStats(0, 0, 1.0F, 95, 250) // lvl 0-4
+        /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.3f, .3f, .3f, 0,1f, 0.1f, 0.1f});
+        bronze = addMaterial("Bronze", 1, 300, 2, 1.5F, 5, 1.00F, 5).setForgeStats(1, 1, 2.5F, 100, 250) // lvl 5-14
+                /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.5f, .6f, .5f, 0,1f, 0.1f, 0.1f});
+        iron = addMaterial("Iron", 2, 500, 2, 2.0F, 5, 1.00F, 15).setForgeStats(2, 2, 2.0F, 90, 250) // lvl 15-24
+        /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.6f, .6f, .6f, 0,15f, 0.1f, 0.1f});
+        steel = addMaterial("Steel", 3, 750, 2, 2.5F, 10, 1.00F, 25).setForgeStats(3, 3, 2.5F, 120, 250) // lvl 25-39
+        /*    ice fire light chaos dark holy*/
+                .setElemental(new float[]{.5f, .5f, .5f, 0,1f, 0.1f, 0.1f});
         encrusted = addMaterial("Encrusted", 3, 2000, 3, 3.5F, 25, 1.00F, 40).setForgeStats(3, 3, 5.0F, 130, 240); // lvl
+        encrusted.setIceResistance(.75f);
         // 40-49
         obsidian = addMaterial("Obsidian", 3, 2000, 3, 3.5F, 25, 1.00F, 40).setForgeStats(3, 3, 5.0F, 130, 240); // lvl
         // 40-49
@@ -185,6 +210,11 @@ public class BaseMaterialMF {
     public static BaseMaterialMF addArmourSpecificMaterial(String name, int tier, int durability, float AC,
                                                            int enchantment, float weight, int lvl) {
         return addMaterial(name, tier, durability, -1, AC, -1, enchantment, weight, lvl);
+    }
+
+    public BaseMaterialMF setElemental(float[] array){
+        this.elementalResistances = array;
+        return this;
     }
 
     public static BaseMaterialMF addMaterial(String name, int tier, int durability, int harvestLevel, float sharpness,
@@ -263,7 +293,7 @@ public class BaseMaterialMF {
 
     private ArmourMaterialMF convertToMFArmour() {
         return new ArmourMaterialMF("MF" + name, durability, hardness, enchantment, weight)
-                .setFireResistance(fireResistance).setMagicResistance(arcaneResistance).setMythic(isMythic);
+                .setFireResistance(fireResistance).setMagicResistance(arcaneResistance).setMythic(isMythic).setResistances(this.elementalResistances);
     }
 
     private ToolMaterial convertToTool() {
@@ -276,6 +306,13 @@ public class BaseMaterialMF {
             armourConversion = getMFArmourMaterial(this);
         }
         return armourConversion;
+    }
+    public float getIceResistance() {
+        return iceResistance;
+    }
+
+    public void setIceResistance(float iceResistance) {
+        this.iceResistance = Math.min(Math.max(iceResistance, 0), 1);
     }
 
     public ToolMaterial getToolConversion() {

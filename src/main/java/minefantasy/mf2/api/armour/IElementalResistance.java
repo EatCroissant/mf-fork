@@ -22,6 +22,7 @@ public interface IElementalResistance {
      */
     public float getFireResistance(ItemStack item, DamageSource source);
 
+    public float getIceResistance(ItemStack item, DamageSource source);
     /**
      * @return the Base resistance percent for non magic/fire(0-100) (for the whole
      * suit) -values mean weakness

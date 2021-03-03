@@ -4,11 +4,13 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
+import minefantasy.mf2.api.armour.ArmourMaterialMF;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.armour.ItemArmourMFBase;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
+import minefantasy.mf2.config.BattleConfig;
 import minefantasy.mf2.config.ConfigClient;
 import minefantasy.mf2.item.list.ArmourListMF;
 import minefantasy.mf2.item.list.CreativeTabMF;
@@ -27,8 +29,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistance {
@@ -81,12 +85,21 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
     }
 
     @Override
-    public float getFireResistance(ItemStack item, DamageSource source) {
+    public float getIceResistance(ItemStack item, DamageSource source) {
         CustomMaterial custom = getCustomMaterial(item);
         if (custom != null) {
-            MFLogUtil.logDebug("Fire Resist: " + custom.getFireResistance());
-            return custom.getFireResistance() * design.getRating();
+            return custom.getIceResistance();
         }
+        return material.magicResistanceModifier;
+    }
+
+    @Override
+    public float getFireResistance(ItemStack item, DamageSource source) {
+        CustomMaterial custom = getCustomMaterial(item);
+//        if (custom != null) {
+//            MFLogUtil.logDebug("Fire Resist: " + custom.getFireResistance());
+//            return custom.getFireResistance() * design.getRating();
+//        }
         return material.fireResistanceModifier;
     }
 
@@ -172,6 +185,15 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 
     public boolean isMetal() {
         return design == ArmourDesign.MAIL || design == ArmourDesign.PLATE;
+    }
+
+    public void upgradeWithTitanite(int type, ItemStack items){
+        NBTTagCompound data = items.getTagCompound();
+        if(data == null) data = new NBTTagCompound();
+        NBTTagCompound titanite_upgrade = data.hasKey("titanite")?data.getCompoundTag("titanite"):new NBTTagCompound();
+        if(!titanite_upgrade.hasKey("type")) titanite_upgrade.getString("type"); // "basic"
+        if(!titanite_upgrade.hasKey("level")) titanite_upgrade.getInteger("level");
+
     }
 
     @SideOnly(Side.CLIENT)
@@ -306,6 +328,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
         if (ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote) {
             DR = ArmourCalculator.adjustACForDamage(src, DR, getProtectiveTrait(armour, 0),
                     getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2));
+            System.out.println("armour for source damage" + Arrays.toString(new float[]{getProtectiveTrait(armour, 0), getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2)}));
         }
         MFLogUtil.logDebug(">>>>DR<<<< = " + DR);
         return DR;
@@ -329,12 +352,14 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
         float cutting = 1.0F;
         float piercing = 1.0F;
         float blunt = 1.0F;
+        float ice = 1.0F;
 
         CustomMaterial material = getCustomMaterial(item);
         if (material != null) {
             cutting = material.getArmourProtection(0);
             blunt = material.getArmourProtection(1);
             piercing = material.getArmourProtection(2);
+            ice = material.getArmourProtection(3);
         }
 
         if (dtype == 0)// Cutting
@@ -348,6 +373,10 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
         if (dtype == 1)// Blunt
         {
             value *= blunt;
+        }
+        if (dtype == 3)// ICE
+        {
+            value *= ice;
         }
         return value;
     }
@@ -369,9 +398,25 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
     public void addInformation(ItemStack item, EntityPlayer user, List list, boolean full) {
         CustomToolHelper.addInformation(item, list);
         float mass = getPieceWeight(item, armorType);
-
         list.add(CustomMaterial.getWeightString(mass));
+
+        if(full) {
+
+        }
         super.addInformation(item, user, list, full);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void addProtectionTraits(ItemStack item, List list, boolean full){
+        list.add(EnumChatFormatting.DARK_GREEN + String.format("Physical damage reduction %.2f", BattleConfig.getResistance(item, design, 0) * scalePiece() * 4));
+        if(full) {
+            list.add(EnumChatFormatting.BLUE + String.format("Ice resistance %.2f", BattleConfig.getResistance(item, design, 1) * scalePiece()));
+            list.add(EnumChatFormatting.RED + String.format("Fire resistance %.2f", BattleConfig.getResistance(item, design, 2) * scalePiece()));
+            list.add(EnumChatFormatting.AQUA + String.format("Lightning resistance %.2f", BattleConfig.getResistance(item, design, 3) * scalePiece()));
+            list.add(EnumChatFormatting.DARK_RED + String.format("Chaos resistance %.2f", BattleConfig.getResistance(item, design, 4) * scalePiece()));
+            list.add(EnumChatFormatting.DARK_GRAY + String.format("Dark resistance %.2f", BattleConfig.getResistance(item, design, 5) * scalePiece()));
+            list.add(EnumChatFormatting.GRAY + String.format("Holy resistance %.2f", BattleConfig.getResistance(item, design, 6) * scalePiece()));
+        }
     }
 
     @Override

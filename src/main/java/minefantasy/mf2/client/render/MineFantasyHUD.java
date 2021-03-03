@@ -12,6 +12,7 @@ import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.TileEntityRoad;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
+import minefantasy.mf2.config.BattleConfig;
 import minefantasy.mf2.config.ConfigClient;
 import minefantasy.mf2.entity.EntityCogwork;
 import minefantasy.mf2.item.gadget.IScope;
@@ -28,6 +29,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -69,6 +71,7 @@ public class MineFantasyHUD extends Gui {
         if (mc.thePlayer != null) {
             EntityPlayer player = mc.thePlayer;
 
+            renderProtections(player);
             if (mc.currentScreen != null
                     && (mc.currentScreen instanceof GuiInventory || mc.currentScreen instanceof GuiContainerCreative)) {
                 renderArmourRating(player);
@@ -236,6 +239,38 @@ public class MineFantasyHUD extends Gui {
         return null;
     }
 
+    private void renderProtections(EntityPlayer player){
+        bindTexture("textures/gui/armour.png");
+        ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth, MineFantasyHUD.mc.displayHeight);
+        double sw = scaledresolution.getScaledWidth()/(float)mc.displayWidth, sh = scaledresolution.getScaledHeight()/(float)mc.displayHeight;
+        double h = scaledresolution.getScaledHeight(), h2 = h - 2*64*sh;
+        double w = 64*sw, w2 = 3*64*sw;
+        double cw = 64*sw*2, ch = h-64*sh;
+
+        //drawTexturedModalRect(0,0,0,0,178,178);
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(w, h, this.zLevel,0, 1);
+        tessellator.addVertexWithUV(w2, h, this.zLevel, 1, 1);
+        tessellator.addVertexWithUV(w2, h2 , this.zLevel, 1, 0);
+        tessellator.addVertexWithUV(w, h2, this.zLevel, 0, 0);
+        tessellator.draw();
+
+        for(int i=0;i<6;i++){
+            String text = String.format("%s%d%s",BattleConfig.getResColor(i+1),(int)(100*BattleConfig.getTotalProtection(player, i+1)), "%");
+            int X = (int)Math.round(cw - w*2.0/3.0*Math.sin(i*Math.PI/3.0)) - mc.fontRenderer.getStringWidth(text) / 2;
+            int Y = (int)Math.round(ch+w*2.0/3.0*Math.cos(i*Math.PI/3.0)) -mc.fontRenderer.FONT_HEIGHT/2 ;
+            mc.fontRenderer.drawStringWithShadow(text, X, Y, 0 );
+        }
+        String text = String.format("%s%d",BattleConfig.getResColor(0),(int)(BattleConfig.getTotalProtection(player, 0)) );
+        mc.fontRenderer.drawStringWithShadow(text, (int)cw-mc.fontRenderer.getStringWidth((text))/2, (int)ch-mc.fontRenderer.FONT_HEIGHT/2, 0 );
+
+        for(int i=0;i<7;i++){
+
+            //mc.fontRenderer.drawString(BattleConfig.getResColor(i) + String.format(BattleConfig.getFormatResString(i), ), 0, 0+(4+i)*8, 0);
+        }
+    }
+
     private void renderArmourRating(EntityPlayer player) {
         int base = getBaseRating(player);
         ScaledResolution scaledresolution = new ScaledResolution(MineFantasyHUD.mc, MineFantasyHUD.mc.displayWidth,
@@ -250,9 +285,9 @@ public class MineFantasyHUD extends Gui {
         if (ArmourCalculator.advancedDamageTypes) {
             mc.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("attribute.armour.protection"), xPosAR,
                     yPosAR, Color.WHITE.getRGB());
-            displayTraitValue(xPosAR, yPosAR + 8, orientationAR, 0, player, base);
-            displayTraitValue(xPosAR, yPosAR + 16, orientationAR, 2, player, base);
-            displayTraitValue(xPosAR, yPosAR + 24, orientationAR, 1, player, base);
+            for(int i=0;i<7;i++){
+                mc.fontRenderer.drawString(BattleConfig.getResColor(i) + String.format(BattleConfig.getFormatResString(i), BattleConfig.getTotalProtection(player, i)), xPosAR, yPosAR+(4+i)*8, yPosAR);
+            }
             y = 32;
         } else {
             displayGeneralAR(xPosAR, yPosAR, orientationAR, player, base);

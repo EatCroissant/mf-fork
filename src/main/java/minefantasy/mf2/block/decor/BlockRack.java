@@ -54,10 +54,16 @@ public class BlockRack extends BlockWoodDecor {
         return directions[Math.min(3, dir)];
     }
 
-    public static boolean interact(int slot, World world, TileEntityRack tile, EntityPlayer player) {
+    protected static boolean canUse(EntityPlayer player, TileEntityRack tile){
         if(MineFantasyII.isBukkitServer()){
-            if(BukkitUtils.cantBreakBlock(player, tile.xCoord, tile.yCoord, tile.zCoord)) return false;
+            if(BukkitUtils.cantBreakBlock(player, tile.xCoord, tile.yCoord, tile.zCoord) && tile != null) return false;
         }
+        return true;
+    }
+
+    public static boolean interact(int slot, World world, TileEntityRack tile, EntityPlayer player) {
+        if(canUse(player,tile)) return false;
+
 
         if (player.isSneaking()) {
             player.openGui(MineFantasyII.instance, 0, world, tile.xCoord, tile.yCoord, tile.zCoord);
@@ -338,6 +344,7 @@ public class BlockRack extends BlockWoodDecor {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer user, int i, float f, float f1,
                                     float f2) {
         TileEntityRack tile = (TileEntityRack) world.getTileEntity(x, y, z);
+        if(canUse(user,tile)) return false;
         if (world.isRemote) {
             int slot = tile.getSlotFor(f, f2);
             if (slot >= 0 && slot < 4) {

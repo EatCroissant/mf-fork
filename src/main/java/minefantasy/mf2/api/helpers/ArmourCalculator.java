@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.armour.*;
 import minefantasy.mf2.api.weapon.IDamageType;
+import minefantasy.mf2.config.BattleConfig;
 import minefantasy.mf2.item.armour.ArmourDesign;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -14,6 +15,8 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.*;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
+
+import java.util.Arrays;
 
 /**
  * This class is used to calculate armour values like classes and weight
@@ -193,11 +196,13 @@ public class ArmourCalculator {
      */
     public static float adjustACForDamage(DamageSource src, float value, float cuttingProt, float bluntProt,
                                           float pierceProt) {
+        //TODO:ARIAMIS:there is damage cuts by protection traits
         float[] ratio = getRatioForSource(src);
         if (ratio == null) {
             return value;// Null means undefined
         }
 
+        System.out.printf( "\nCalc: %s,(%f) %s %s\n ",src.getClass(), value, Arrays.toString(ratio), Arrays.toString(new float[]{cuttingProt, bluntProt, pierceProt}) );
         return modifyACForType(value, ratio[0], ratio[1], ratio[2], cuttingProt, bluntProt, pierceProt,
                 getArmourPenetration(src));
     }
@@ -218,7 +223,7 @@ public class ArmourCalculator {
         }
         float ACModifier = 1.0F + specialAP;
         value *= ACModifier;
-        return value > 0F ? value : 0F;
+        return Math.max(value, 0F);
     }
 
     public static float getArmourPenetration(DamageSource source) {
@@ -258,7 +263,9 @@ public class ArmourCalculator {
             Entity damager = source.getSourceOfDamage();// The thing causing damage(like arrows)
 
             if (user == damager && user instanceof EntityLivingBase) {
-                return getRatioForMelee((EntityLivingBase) user, ((EntityLivingBase) user).getHeldItem());
+                float[] s= getRatioForMelee((EntityLivingBase) user, ((EntityLivingBase) user).getHeldItem());
+                System.out.printf("damage %s %d\n", Arrays.toString(s), s.length);
+                return s;
             }
             return getRatioForIndirect(damager);
         }
@@ -267,6 +274,8 @@ public class ArmourCalculator {
     }
 
     private static float[] getRatioForIndirect(Entity damager) {
+        // TODO:AIRIMIS:    CUSTOM REGISTER OF STATS FOR ARMOR? MAKE ALIMENTARY DAMAGE
+        // TODO:            THERE SET UPS RATIOS
         if (damager == null) {
             return new float[]{1, 1, 1};// No damage type.
         }
@@ -296,10 +305,16 @@ public class ArmourCalculator {
 
     public static float[] getRatioForWeapon(EntityLivingBase user, ItemStack weapon) {
         Item item = weapon.getItem();
+        BattleConfig itemConfig = BattleConfig.getConfig(item);
+        if  (itemConfig != null && itemConfig.getType() == 2 ) {
+            return itemConfig.getValues();
+        }
 
         if (item instanceof IDamageType) {
-            return user != null ? ((IDamageType) item).getDamageRatio(weapon, user)
+            float[] s = user != null ? ((IDamageType) item).getDamageRatio(weapon, user)
                     : ((IDamageType) item).getDamageRatio(weapon);
+
+            return s;
         }
         if (item instanceof ItemSword) {
             return new float[]{1, 0, 0};// sword is cutting by default

@@ -25,7 +25,7 @@ public class ItemBandage extends Item {
         name = id;
         healPwr = healAmount;
         setMaxStackSize(16);
-        setCreativeTab(CreativeTabMF.tabGadget);
+        setCreativeTab(CreativeTabMF.tabMaterialsMF);
         setTextureName("minefantasy2:Other/" + name);
         GameRegistry.registerItem(this, "MF_Aid_" + name, MineFantasyII.MODID);
         this.setUnlocalizedName(name);

@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.ToolHelper;
+import minefantasy.mf2.config.BattleConfig;
 import minefantasy.mf2.item.armour.ArmourDesign;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,7 @@ import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmourMF, IArmourRating, ISpecialArmourMF {
@@ -103,6 +105,8 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
             AC *= getUnblockableResistance(armour, source);
         }
         AC *= getSpecialModifier(armour, source);
+
+        System.out.println("\nArmour: "+AC+":"+armour.getItem().getUnlocalizedName());
 
         if (player.getEntityData().hasKey("MF_ZombieArmour")) {
             AC -= 1.5F;
@@ -224,6 +228,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
         if (ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote) {
             DT2 = ArmourCalculator.adjustACForDamage(src, DT2, getProtectiveTrait(armour, 0),
                     getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2));
+            System.out.println(DT2 + " S " + DT + " " + getProtectiveTrait(armour, 2));
         }
         return DT2;
     }
@@ -241,6 +246,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
         if (ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote) {
             DR = ArmourCalculator.adjustACForDamage(src, DR, getProtectiveTrait(armour, 0),
                     getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2));
+            System.out.println("armour 2" + Arrays.toString(new float[]{getProtectiveTrait(armour, 0), getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2)}));
         }
         return DR;
     }

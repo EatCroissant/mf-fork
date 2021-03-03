@@ -48,6 +48,11 @@ public class CustomMaterial {
      */
     public float resistance;
     /**
+     * The modifier to resist elements like ice)
+     */
+    public float iceResistance=0;
+
+    /**
      * The weight Kg/U (Kilogram per unit)
      */
     public float density;
@@ -56,6 +61,7 @@ public class CustomMaterial {
     public int crafterTier = 0;
     public int crafterAnvilTier = 0;
     public float craftTimeModifier = 1.0F;
+
     public float meltingPoint;
     private float[] armourProtection = new float[]{1.0F, 1.0F, 1.0F};
     private boolean unbreakable = false;
@@ -232,7 +238,9 @@ public class CustomMaterial {
     }
 
     public float getArmourProtection(int id) {
+        if(id<armourProtection.length)
         return armourProtection[id];
+        else return getIceResistance();
     }
 
     public ItemStack getItem() {
@@ -301,6 +309,14 @@ public class CustomMaterial {
     public CustomMaterial setUnbreakable() {
         unbreakable = true;
         return this;
+    }
+
+    public float getIceResistance() {
+        return iceResistance;
+    }
+
+    public void setIceResistance(float iceResistance) {
+        this.iceResistance = Math.min(Math.max(iceResistance, 0), 1);
     }
 
     public boolean isUnbrekable() {

@@ -22,6 +22,7 @@ public class ConfigItemRegistry extends ConfigurationBaseMF {
     public static String[] customDamagerEntityList = new String[0];
 
     public static void readCustoms() {
+        // TODO:ARIAMIS" there are sets up data from config
         MFLogUtil.logDebug("Loading Custom Item Entries from config...");
         try {
             for (String s : armourListAC) {
@@ -218,7 +219,8 @@ public class ConfigItemRegistry extends ConfigurationBaseMF {
 
                     Item weapon = getItemFromString(id);
                     if (weapon != null) {
-                        CustomDamageRatioEntry.registerItem(weapon, new float[]{cut, blunt, pierce});
+                        // TODO:Ariamis: there are sets up ratios for damage
+                        CustomDamageRatioEntry.registerItem(weapon, new float[]{cut, blunt, pierce, .1f});
                         MFLogUtil.logDebug(
                                 "Added Custom weapon: " + id + " With Ratio " + cut + ":" + pierce + ":" + blunt);
                     }

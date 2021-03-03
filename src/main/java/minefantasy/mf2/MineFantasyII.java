@@ -13,6 +13,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.integration.biomes.BIOPIntegration;
+import minefantasy.mf2.item.ItemTitanite;
 import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.block.list.BlockListMF;
@@ -110,6 +111,9 @@ public class MineFantasyII {
         new ConfigMobs().setConfig(getCfg(event, "Mobs"));
 
         BaseMaterialMF.init();
+        for (int i = 0; i < 7 ; i++) {
+            ItemTitanite i2 = new ItemTitanite(i);
+        }
         MineFantasyAPI.isInDebugMode = isDebug();
         MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 
@@ -153,8 +157,8 @@ public class MineFantasyII {
         CustomArmourEntry.registerItem(Items.golden_leggings, ArmourDesign.SOLID, 1.5F, "medium");
         CustomArmourEntry.registerItem(Items.golden_boots, ArmourDesign.SOLID, 1.5F, "medium");
 
+        //TODO:AIRAIMIS: register data damage
         ConfigItemRegistry.readCustoms();
-
         for (BiomeGenBase biome : BiomeGenBase.getBiomeGenArray()) {
             registerBiomeStuff(biome);
         }
@@ -167,6 +171,8 @@ public class MineFantasyII {
         MetalMaterial.addHeatables();
         new BIOPIntegration();
         new ConfigRecipes().setConfig(cfgs);
+
+        BattleConfig.registerChangedValues();
     }
 
     @EventHandler

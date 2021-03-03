@@ -47,6 +47,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class CombatMechanics {
@@ -725,6 +726,8 @@ public class CombatMechanics {
             if (!user.worldObj.isRemote) {
                 String type = "Mixed";
                 float[] f = ArmourCalculator.getRatioForSource(source);
+                //TODO CALCULATING
+                System.out.println(Arrays.toString(f));
                 if (f == null) {
                     type = "Basic";
                 } else {
