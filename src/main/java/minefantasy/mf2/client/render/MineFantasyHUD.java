@@ -12,9 +12,10 @@ import minefantasy.mf2.block.tileentity.TileEntityAnvilMF;
 import minefantasy.mf2.block.tileentity.TileEntityCarpenterMF;
 import minefantasy.mf2.block.tileentity.TileEntityRoad;
 import minefantasy.mf2.block.tileentity.TileEntityTanningRack;
-import minefantasy.mf2.config.BattleConfig;
+import minefantasy.mf2.item.titanite.BattleConfig;
 import minefantasy.mf2.config.ConfigClient;
 import minefantasy.mf2.entity.EntityCogwork;
+import minefantasy.mf2.item.ItemTitanite;
 import minefantasy.mf2.item.gadget.IScope;
 import minefantasy.mf2.item.tool.advanced.ItemMattock;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
@@ -29,7 +30,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -264,9 +264,14 @@ public class MineFantasyHUD extends Gui {
         }
         String text = String.format("%s%d",BattleConfig.getResColor(0),(int)(BattleConfig.getTotalProtection(player, 0)) );
         mc.fontRenderer.drawStringWithShadow(text, (int)cw-mc.fontRenderer.getStringWidth((text))/2, (int)ch-mc.fontRenderer.FONT_HEIGHT/2, 0 );
-
+        if(player instanceof EntityPlayer &&
+                player.getHeldItem() != null &&
+                player.getHeldItem().getItem() != null &&
+                player.getHeldItem().hasTagCompound() &&
+                player.getHeldItem().getTagCompound().hasKey("titanite")){
+            BattleConfig.getAttackRates(player.getHeldItem());
+        }
         for(int i=0;i<7;i++){
-
             //mc.fontRenderer.drawString(BattleConfig.getResColor(i) + String.format(BattleConfig.getFormatResString(i), ), 0, 0+(4+i)*8, 0);
         }
     }

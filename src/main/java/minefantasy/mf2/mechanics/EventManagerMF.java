@@ -29,10 +29,12 @@ import minefantasy.mf2.entity.mob.EntityDragon;
 import minefantasy.mf2.farming.FarmingHelper;
 import minefantasy.mf2.integration.CustomStone;
 import minefantasy.mf2.item.ClientItemsMF;
+import minefantasy.mf2.item.ItemTitanite;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.item.titanite.BattleConfig;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
@@ -77,6 +79,7 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -628,6 +631,9 @@ public class EventManagerMF {
             if(event.itemStack.getItem() instanceof ItemArmourMF && ArmourCalculator.advancedDamageTypes) {
                 ((ItemArmourMF)event.itemStack.getItem()).addProtectionTraits(event.itemStack, event.toolTip, GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak));
             }
+            if(event.itemStack != null && BattleConfig.isToolTitanable(event.itemStack.getItem()))
+                event.toolTip.add(Arrays.toString(BattleConfig.getAttackRates(event.itemStack)));
+
             if (event.itemStack.getItem() instanceof ItemArmor
                     && (!(event.itemStack.getItem() instanceof ItemArmourMFBase) || ClientItemsMF.showSpecials(
                     event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips))) {

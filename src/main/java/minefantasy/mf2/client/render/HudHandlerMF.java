@@ -1,13 +1,19 @@
 package minefantasy.mf2.client.render;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import minefantasy.mf2.item.ItemTitanite;
 import minefantasy.mf2.item.archery.ItemBowMF;
 import minefantasy.mf2.item.gadget.IScope;
+import minefantasy.mf2.item.weapon.ItemWeaponMF;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.AnvilUpdateEvent;
 
 @SideOnly(Side.CLIENT)
 public class HudHandlerMF {

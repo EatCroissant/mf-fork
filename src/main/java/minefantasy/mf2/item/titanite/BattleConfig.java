@@ -1,17 +1,19 @@
-package minefantasy.mf2.config;
+package minefantasy.mf2.item.titanite;
 
+import com.google.common.primitives.Floats;
 import minefantasy.mf2.api.armour.ArmourMaterialMF;
-import minefantasy.mf2.api.armour.ISpecialArmourMF;
+import minefantasy.mf2.item.ItemTitanite;
 import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.list.CustomToolListMF;
+import minefantasy.mf2.item.tool.ItemHoeMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.EnumChatFormatting;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class BattleConfig {
@@ -46,12 +48,14 @@ public class BattleConfig {
     * */
 
     static HashMap<String, BattleConfig> changedValues = new HashMap<>();
+    static HashMap<String, Float> materialSharpness = new HashMap<>();
+    static HashMap<String, BattleConfig> toolSharpness= new HashMap<>();
+
+
     static protected Object[][] custom_data = {
-            {CustomToolListMF.standard_katana.getUnlocalizedName(), new float[]{0f, 0f, 0f, 1f}, 2}
-    };
-                                            /*  points*D*T  p*D+p*T    */
-                                                /* Damage,  Ice,    Fire,Lightning, Chaos,  Dark,   Holy */
-    static protected Object[][] customArmourConfig = {
+            {CustomToolListMF.standard_katana.getUnlocalizedName(), new float[]{1f, 0f, 0f, 0f, 0f, 0f, 0f}, 2},
+            /*  points*D*T  p*D+p*T    */
+            /* Damage,  Ice,    Fire,Lightning, Chaos,  Dark,   Holy */
             {ArmourDesign.CLOTH,    new float[]{    0.2f,   .2f,    .1f,    .5f,    .0f,    .0f,    .0f }, 1}, // Ткань
             {ArmourDesign.SOLID,    new float[]{    0.7f,   .3f,    .4f,    .2f,    .0f,    .0f,    .4f }, 1}, // Стандартная
             {ArmourDesign.MAIL,     new float[]{    0.5f,   .3f,    .4f,    .2f,    .0f,    .0f,    .4f }, 1}, // Кольчуга
@@ -64,9 +68,7 @@ public class BattleConfig {
             {ArmourDesign.SPLINTMAIL,new float[]{   0.5f,   .2f,    .3f,    .3f,    .0f,    .0f,    .0f }, 1}, // Полукольчуга
             {ArmourDesign.FIELDPLATE,new float[]{   0.8f,   .3f,    .5f,    .3f,    .0f,    .0f,    .0f }, 1}, // Полноплитная
             {ArmourDesign.COGWORK,  new float[]{    0.9f,   .3f,    .1f,    .5f,    .0f,    .0f,    .0f }, 1}, // Механическая
-    };
-    static public float[] armourRates = { .5f, .7f, .65f, .4f};
-    static protected Object[][] customMaterialProtection = {     /*    ice fire light chaos dark holy*/
+                                                                    /*  physical ice fire light chaos dark holy*/
             {BaseMaterialMF.getMaterial("BlackSteelWeak"),  new float[]{   .5f, .5f, .5f, .2f, .0f, .0f }, 4}, // 0 тир
             {BaseMaterialMF.getMaterial("RedSteelWeak"),    new float[]{   .5f, .5f, .5f, .0f, .2f, .0f }, 4}, // 0 тир
             {BaseMaterialMF.getMaterial("BlueSteelWeak"),   new float[]{   .5f, .5f, .5f, .0f, .0f, .2f }, 4}, // 0 тир
@@ -92,7 +94,41 @@ public class BattleConfig {
             {BaseMaterialMF.getMaterial("Mithium"),         new float[]{   1.4f,1.5f, 1.5f, .5f, .4f, .6f }, 4}, // 7 тир
             {BaseMaterialMF.getMaterial("Ender"),           new float[]{   1.5f,1.5f, 1.5f, .6f, .6f, .4f }, 4}, // 7 тир
             {BaseMaterialMF.getMaterial("CompositeAlloy"),  new float[]{   .9f, .8f, 1f,  .2f, .1f, .1f }, 4}, // 4 тир
+
+            {BaseMaterialMF.getToolMaterial("BlackSteelWeak"),  .3f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("RedSteelWeak"),    .3f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("BlueSteelWeak"),   .3f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("Tin"),             .4f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("PigIron"),         .6f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("Silver"),          .4f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("Gold"),            .3f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("Ornate"),          .5f,    2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("Tungsten"),        1f,     2}, // 2 тир
+            {BaseMaterialMF.getToolMaterial("Copper"),          .4,     2}, // 0 тир
+            {BaseMaterialMF.getToolMaterial("Bronze"),          .6f,    2}, // 1 тир
+            {BaseMaterialMF.getToolMaterial("Iron"),            .7f,    2}, // 2 тир
+            {BaseMaterialMF.getToolMaterial("Steel"),           1.1f,   2}, // 3 тир
+            {BaseMaterialMF.getToolMaterial("Encrusted"),       1f,     2}, // 3 тир
+            {BaseMaterialMF.getToolMaterial("Obsidian"),        1f,     2}, // 3 тир
+            {BaseMaterialMF.getToolMaterial("BlackSteel"),      1.2f,   2}, // 4 тир
+            {BaseMaterialMF.getToolMaterial("Dragonforge"),     1.5f,   2}, // 4 тир
+            {BaseMaterialMF.getToolMaterial("RedSteel"),        1.5f,   2}, // 5 тир
+            {BaseMaterialMF.getToolMaterial("BlueSteel"),       1.75f,  2}, // 5 тир
+            {BaseMaterialMF.getToolMaterial("Adamantium"),      1.7,    2}, // 6 тир
+            {BaseMaterialMF.getToolMaterial("Mithril"),         1.9f,   2}, // 6 тир
+            {BaseMaterialMF.getToolMaterial("Ignotumite"),      2f,     2}, // 7 тир
+            {BaseMaterialMF.getToolMaterial("Mithium"),         2.1f,   2}, // 7 тир
+            {BaseMaterialMF.getToolMaterial("Ender"),           2f,     2}, // 7 тир
+            {BaseMaterialMF.getToolMaterial("CompositeAlloy"),  1.3f,   2}, // 4 тир
+            // Custom item initial damage | total  | physical  | ice | fire | light | chaos | dark | holy
+            {CustomToolListMF.standard_hoe.getUnlocalizedName(), new float[] { 13f,    0f,         0f,    1f,      0f,     1f,     0f,     0f}, 2}
+
+
     };
+
+    static public float[] armourRates = { .5f, .7f, .65f, .4f};
+
+
     /*
      * 1 - armour
      * 2 - weapon
@@ -104,13 +140,35 @@ public class BattleConfig {
 
     public static void registerChangedValues(){
         for(Object[] arr: custom_data){
-            registerItem((String)arr[0], (float[])arr[1], (int)arr[2]);
-        }
-        for(Object[] arr: customArmourConfig){
-            ((ArmourDesign)arr[0]).upd((float[])arr[1]);
-        }
-        for(Object[] arr: customMaterialProtection){
-            ((BaseMaterialMF)arr[0]).setElemental((float[])arr[1]);
+            int type = ((Integer)arr[2]);
+            if(arr[0] instanceof String && type == 2 && arr[1] instanceof float[] && ((float[]) arr[1]).length == 7){
+                registerItem((String)arr[0], (float[])arr[1], (int)arr[2]);
+            }
+            else if(arr[0] instanceof ArmourDesign && type == 1){
+                ((ArmourDesign)arr[0]).upd((float[])arr[1]);
+            }
+            else if(arr[0] instanceof BaseMaterialMF){
+                switch (type){
+                    case 4:
+                        ((BaseMaterialMF)arr[0]).setElemental((float[])arr[1]);
+                        continue;
+                    case 2:
+                        materialSharpness.put(((BaseMaterialMF)arr[0]).name, (float)arr[1]);
+                        continue;
+                    default:
+                }
+            }
+            else if(arr[0] instanceof String && type == 2 && arr[1] instanceof float[] && ((float[]) arr[1]).length == 8){
+                toolSharpness.put(((String)arr[0]), new BattleConfig(2, new float[]{
+                        ((float[])arr[1])[0] * ((float[])arr[1])[1],
+                        ((float[])arr[1])[0] * ((float[])arr[1])[2],
+                        ((float[])arr[1])[0] * ((float[])arr[1])[3],
+                        ((float[])arr[1])[0] * ((float[])arr[1])[4],
+                        ((float[])arr[1])[0] * ((float[])arr[1])[5],
+                        ((float[])arr[1])[0] * ((float[])arr[1])[6],
+                        ((float[])arr[1])[0] * ((float[])arr[1])[7],
+                }));
+            }
         }
         ArmourDesign.show();
     }
@@ -149,6 +207,29 @@ public class BattleConfig {
         }
     }
 
+    public static float[] getAttackRates(String name){
+        return toolSharpness.get(name) != null ? toolSharpness.get(name).values : changedValues.get(name) != null ? changedValues.get(name).values : null;
+    }
+
+    public static boolean isToolTitanable(Item i){
+        return (i instanceof ItemHoe) || (i instanceof ItemPickaxe) || (i instanceof ItemAxe) || (i instanceof ItemShears) || (i instanceof ItemHoe) || ( i instanceof ItemTool) || (i instanceof ItemSpade) || (i instanceof ItemArmourMF) || (i instanceof ItemArmor);
+    }
+
+    public static float[] getAttackRates(ItemStack itemStack){
+        Item item = itemStack.getItem();
+        ItemTitanite.NBTTitanite titanite = new ItemTitanite.NBTTitanite(itemStack);
+        float[] rates = getAttackRates(item.getUnlocalizedName());
+        if(rates == null) {
+            return null;
+        } else {
+            rates = rates.clone();
+        }
+        float damageRate = Floats.max(rates);
+        float[] added_rates = titanite.getAddedDamage(damageRate);
+        for(int i=0;i<added_rates.length;i++) rates[i] += added_rates[i];
+        return rates;
+    }
+
     public static ArmourMaterialMF getMaterial(ItemStack item){
         String materialName = item.hasTagCompound() && item.getTagCompound().hasKey("MF_CustomMaterials")  && item.getTagCompound().getCompoundTag("MF_CustomMaterials").hasKey("main_metal") ?
                 item.getTagCompound().getCompoundTag("MF_CustomMaterials").getString("main_metal") : "";
@@ -185,5 +266,7 @@ public class BattleConfig {
     public static BattleConfig getConfig(Item i){
         return changedValues.get(i.getUnlocalizedName());
     }
+
+
 
 }

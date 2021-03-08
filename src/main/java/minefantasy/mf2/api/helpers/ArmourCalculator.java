@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.api.armour.*;
 import minefantasy.mf2.api.weapon.IDamageType;
-import minefantasy.mf2.config.BattleConfig;
+import minefantasy.mf2.item.titanite.BattleConfig;
 import minefantasy.mf2.item.armour.ArmourDesign;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -264,7 +264,7 @@ public class ArmourCalculator {
 
             if (user == damager && user instanceof EntityLivingBase) {
                 float[] s= getRatioForMelee((EntityLivingBase) user, ((EntityLivingBase) user).getHeldItem());
-                System.out.printf("damage %s %d\n", Arrays.toString(s), s.length);
+                if( s != null )System.out.printf("damage %s %d\n", Arrays.toString(s), s.length);
                 return s;
             }
             return getRatioForIndirect(damager);

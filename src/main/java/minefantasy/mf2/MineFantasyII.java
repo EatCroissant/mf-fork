@@ -23,6 +23,8 @@ import minefantasy.mf2.integration.minetweaker.MTCompat;
 import minefantasy.mf2.item.gadget.ItemLootSack;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
+import minefantasy.mf2.item.titanite.BattleConfig;
+import minefantasy.mf2.item.titanite.BattleConfigAnvil;
 import minefantasy.mf2.knowledge.ArtefactListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
@@ -111,9 +113,7 @@ public class MineFantasyII {
         new ConfigMobs().setConfig(getCfg(event, "Mobs"));
 
         BaseMaterialMF.init();
-        for (int i = 0; i < 7 ; i++) {
-            ItemTitanite i2 = new ItemTitanite(i);
-        }
+        ItemTitanite i2 = new ItemTitanite();
         MineFantasyAPI.isInDebugMode = isDebug();
         MFLogUtil.log("API Debug mode updated: " + MineFantasyAPI.isInDebugMode);
 
@@ -159,6 +159,7 @@ public class MineFantasyII {
 
         //TODO:AIRAIMIS: register data damage
         ConfigItemRegistry.readCustoms();
+
         for (BiomeGenBase biome : BiomeGenBase.getBiomeGenArray()) {
             registerBiomeStuff(biome);
         }
@@ -168,6 +169,10 @@ public class MineFantasyII {
         ItemLootSack.addItems();
         proxy.postInit();
         proxy.registerTickHandlers();
+
+        //TODO:ARIAMIS: anvil config. Reforging tools
+        MinecraftForge.EVENT_BUS.register(new BattleConfigAnvil());
+
         MetalMaterial.addHeatables();
         new BIOPIntegration();
         new ConfigRecipes().setConfig(cfgs);
