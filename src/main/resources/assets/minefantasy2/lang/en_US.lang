@@ -7,6 +7,28 @@ info.bow.reload=Right-Click while sneaking to open firearm.
 info.firearm.ammo=%1$s/%2$s
 info.tooltip.moreinfo=Hold [%1$s] for more information.
 
+attribute.weapon.damage.dam=Damage : +
+attribute.weapon.damage.ice=Added ice: +
+attribute.weapon.damage.fire=Added fire: +
+attribute.weapon.damage.lightning=Added lightning: +
+attribute.weapon.damage.chaos=Added chaos: +
+attribute.weapon.damage.dark=Added dark: +
+attribute.weapon.damage.holy=Added holy: +
+
+item.titanite.B.name=Titanite
+item.titanite.F.name=Fiery titanite
+item.titanite.I.name=Ice titanite
+item.titanite.L.name=Lightning titanite
+item.titanite.C.name=Chaos titanite
+item.titanite.D.name=Dark titanite
+item.titanite.H.name=Holy titanite
+
+item.titanite.UL.name=Basic and Lightning titanite
+item.titanite.UF.name=Fire and Ice titanite
+item.titanite.UI.name=Fire and Ice titanite
+item.titanite.UB.name=Basic and Lightning titanite
+item.titanite.UD.name=Chaos and Dark titanite
+item.titanite.UC.name=Chaos and Dark titanite
 
 material.sacredoak.name=Sacred Oak
 material.cherry.name=Cherry

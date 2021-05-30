@@ -12,6 +12,29 @@ info.bow.reload="Присесть" + ПКМ для перезарядки
 info.firearm.ammo=%1$s/%2$s
 info.tooltip.moreinfo=Удерживайте [%1$s] для доп. информации
 
+attribute.weapon.damage.dam=Урон: +
+attribute.weapon.damage.ice=Добавленный лед: +
+attribute.weapon.damage.fire=Добавленный огонь: +
+attribute.weapon.damage.lightning=Добавленная молния: +
+attribute.weapon.damage.chaos=Добавленный хаос: +
+attribute.weapon.damage.dark=Добавленный темный: +
+attribute.weapon.damage.holy=Добавленный святой: +
+
+item.titanite.B.name=Титанит
+item.titanite.F.name=Огненный титанит
+item.titanite.I.name=Ледяной титанит
+item.titanite.L.name=Заряженный титанит
+item.titanite.C.name=Хаотический титанит
+item.titanite.D.name=Темный титанит
+item.titanite.H.name=Святой титанит
+
+item.titanite.UL.name=Базовый and Заряженный титанит
+item.titanite.UF.name=Огненный and Ледяной титанит
+item.titanite.UI.name=Огненный and Ледяной титанит
+item.titanite.UB.name=Базовый and Заряженный титанит
+item.titanite.UD.name=Хаотический and Темный титанит
+item.titanite.UC.name=Хаотический and Темный титанит
+
 material.sacredoak.name=Священного дуба
 material.cherry.name=Вишневые
 material.dark.name=Темнодревесные
@@ -2267,4 +2290,6 @@ knowledge.firstaid.1=Вы должны быть предельно быстры 
 knowledge.doctor=Доктор
 knowledge.doctor.desc=Спасая жизни
 knowledge.doctor.1=Постоянная врачебная практика помогла Вам увеличить эффективность использования повязок. Теперь вы излечиваете ими на 50% лучше.
-
+material.mahogan.name=Mahogany
+tile.adamantium_block.name=Block of Adamantium
+	=

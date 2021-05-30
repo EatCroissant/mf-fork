@@ -5,6 +5,7 @@ knowledge.craftArmourBasic=Basic Armour
 knowledge.craftArmourBasic.desc=Nothing fancy
 knowledge.craftArmourBasic.1=When you first start out in this world, you may want something to wear. These Armours don't offer much protection but their better than nothing.
 
+
 knowledge.craftArmourLight=Light Armour
 
 knowledge.craftArmourMedium=Medium Armour
@@ -23,6 +24,29 @@ attribute.armour.protection=Armour Rating
 attribute.armour.light=Light Armour
 attribute.armour.medium=Medium Armour
 attribute.armour.heavy=Heavy Armour
+
+attribute.weapon.damage.dam=Damage : +
+attribute.weapon.damage.ice=Added ice: +
+attribute.weapon.damage.fire=Added fire: +
+attribute.weapon.damage.lightning=Added lightning: +
+attribute.weapon.damage.chaos=Added chaos: +
+attribute.weapon.damage.dark=Added dark: +
+attribute.weapon.damage.holy=Added holy: +
+
+item.titanite.B.name=Titanite
+item.titanite.F.name=Fiery titanite
+item.titanite.I.name=Ice titanite
+item.titanite.L.name=Lightning titanite
+item.titanite.C.name=Chaos titanite
+item.titanite.D.name=Dark titanite
+item.titanite.H.name=Holy titanite
+
+item.titanite.UL.name=Basic and Lightning titanite
+item.titanite.UF.name=Fire and Ice titanite
+item.titanite.UI.name=Fire and Ice titanite
+item.titanite.UB.name=Basic and Lightning titanite
+item.titanite.UD.name=Chaos and Dark titanite
+item.titanite.UC.name=Chaos and Dark titanite
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /COMPONENT/

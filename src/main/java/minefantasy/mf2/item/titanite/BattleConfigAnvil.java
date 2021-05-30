@@ -3,12 +3,9 @@ package minefantasy.mf2.item.titanite;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import minefantasy.mf2.api.tier.IToolMaterial;
-import minefantasy.mf2.item.ItemTitanite;
-import minefantasy.mf2.item.tool.ItemHoeMF;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import net.minecraftforge.event.AnvilUpdateEvent;
 
 public class BattleConfigAnvil {

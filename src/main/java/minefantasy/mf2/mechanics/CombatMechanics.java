@@ -1,6 +1,7 @@
 package minefantasy.mf2.mechanics;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.api.armour.IElementalResistance;
 import minefantasy.mf2.api.helpers.*;
 import minefantasy.mf2.api.knowledge.ResearchLogic;
@@ -16,6 +17,7 @@ import minefantasy.mf2.config.ConfigWeapon;
 import minefantasy.mf2.entity.EntityCogwork;
 import minefantasy.mf2.entity.Shockwave;
 import minefantasy.mf2.entity.mob.EntityMinotaur;
+import minefantasy.mf2.item.titanite.*;
 import minefantasy.mf2.item.weapon.*;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.network.packet.DodgeCommand;
@@ -31,6 +33,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -308,6 +311,7 @@ public class CombatMechanics {
         boolean powerArmour = PowerArmour.isFullyArmoured(hit);
         float damage = modifyDamage(src, world, hit, event.ammount, false);
 
+
         if(hitter instanceof EntityPlayer) {
           applyHeavyBalance(hitter);
         }
@@ -374,8 +378,7 @@ public class CombatMechanics {
         if (src != null && src == DamageSource.fall) {
             onFall(hit, event.ammount);
         }
-        World world = hit.worldObj;
-        float damage = modifyDamage(src, world, hit, event.ammount, true);
+        float damage = event.ammount;
 
         if (damage > 0 && hit.isSprinting()) {
             hit.setSprinting(false);
@@ -436,9 +439,13 @@ public class CombatMechanics {
         return explosion;
     }
 
+
     private float modifyDamage(DamageSource src, World world, EntityLivingBase hit, float dam, boolean properHit) {
         Entity source = src.getSourceOfDamage();
         Entity hitter = src.getEntity();
+
+
+
 
         if (PowerArmour.allowDamageToBlock(src)) {
             dam = PowerArmour.modifyDamage(hit, dam, src);
@@ -451,19 +458,36 @@ public class CombatMechanics {
         if (source != null && hitter != null && hitter instanceof EntityLivingBase) {
             dam = modifyUserHitDamage(dam, (EntityLivingBase) hitter, source, hitter == source, hit, properHit);
         }
+
         if (src.isExplosion() && isSkeleton(hit)) {
             dam *= 5F;
         }
 
-        // TODO: Elemental resistance
+        // TODO: Elemental resistance THERE WE CAN CUT DAMAGE
         dam *= TacticalManager.getResistance(hit, src);
         if (src.isFireDamage()) {
             if (dam <= 0.0F) {
                 hit.extinguish();
             }
         }
-
         return onUserHit(hit, hitter, src, dam, properHit);
+    }
+
+    private float processDamage(float[] damage, EntityLivingBase entity){
+        float[] armourRates = ArmourDesignScalable.getFullScaleRates(entity);
+        if(armourRates !=null){
+            int protectionLevel = entity.getActivePotionEffect(Potion.field_76444_x)!=null?entity.getActivePotionEffect(Potion.field_76444_x).getAmplifier():0;
+            float cutedDamage = BattleConfig.protect(damage, armourRates, protectionLevel);
+            System.out.println("armour rates are ok");
+            return cutedDamage;
+        }
+        else {
+            System.out.println("cant block damage");
+            float baseDamage = 0;
+            for(float dam: damage)
+                baseDamage+=dam;
+            return baseDamage;
+        }
     }
 
     private boolean isSkeleton(Entity target) {
@@ -517,7 +541,6 @@ public class CombatMechanics {
         ItemStack weapon = user.getHeldItem();
         if (weapon != null) {
             if (weapon.getItem() instanceof IDamageModifier) {
-                // TODO: IDamageModifier, this mods the damage for weapons
                 dam = ((IDamageModifier) weapon.getItem()).modifyDamage(weapon, user, target, dam, properHit);
             }
             CustomMaterial material = CustomToolHelper.getCustomPrimaryMaterial(weapon);
@@ -610,6 +633,9 @@ public class CombatMechanics {
 
     private float onUserHit(EntityLivingBase user, Entity entityHitting, DamageSource source, float dam,
                             boolean properHit) {
+
+
+
         ItemStack weapon = user.getHeldItem();
         if ((properHit || source.isProjectile()) && weapon != null && !source.isUnblockable()
                 && !source.isExplosion()) {
@@ -727,7 +753,7 @@ public class CombatMechanics {
                 String type = "Mixed";
                 float[] f = ArmourCalculator.getRatioForSource(source);
                 //TODO CALCULATING
-                System.out.println(Arrays.toString(f));
+                // System.out.println(Arrays.toString(f));
                 if (f == null) {
                     type = "Basic";
                 } else {
@@ -955,3 +981,7 @@ public class CombatMechanics {
         return dam;
     }
 }
+
+
+
+

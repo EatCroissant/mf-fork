@@ -1,5 +1,6 @@
 package minefantasy.mf2.item;
 
+import minefantasy.mf2.item.titanite.ItemTitanite;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import net.minecraft.item.ItemStack;
 

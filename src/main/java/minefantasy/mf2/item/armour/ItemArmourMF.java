@@ -9,7 +9,6 @@ import minefantasy.mf2.api.armour.ItemArmourMFBase;
 import minefantasy.mf2.api.helpers.ArmourCalculator;
 import minefantasy.mf2.api.helpers.CustomToolHelper;
 import minefantasy.mf2.api.material.CustomMaterial;
-import minefantasy.mf2.item.ItemTitanite;
 import minefantasy.mf2.item.titanite.BattleConfig;
 import minefantasy.mf2.config.ConfigClient;
 import minefantasy.mf2.item.list.ArmourListMF;
@@ -110,6 +109,7 @@ public class ItemArmourMF extends ItemArmourMFBase implements IElementalResistan
 
     @Override
     public float getBaseResistance(ItemStack item, DamageSource source) {
+        
         if (baseMaterial == BaseMaterialMF.getMaterial("ender") && source.getSourceOfDamage() != null
                 && source.getSourceOfDamage() instanceof EntityEnderPearl) {
             return 100F;

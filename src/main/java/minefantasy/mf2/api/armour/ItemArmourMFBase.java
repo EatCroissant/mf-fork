@@ -105,7 +105,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
         }
         AC *= getSpecialModifier(armour, source);
 
-        System.out.println("\nArmour: "+AC+":"+armour.getItem().getUnlocalizedName());
+        // System.out.println("\nArmour: "+AC+":"+armour.getItem().getUnlocalizedName());
 
         if (player.getEntityData().hasKey("MF_ZombieArmour")) {
             AC -= 1.5F;
@@ -227,7 +227,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
         if (ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote) {
             DT2 = ArmourCalculator.adjustACForDamage(src, DT2, getProtectiveTrait(armour, 0),
                     getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2));
-            System.out.println(DT2 + " S " + DT + " " + getProtectiveTrait(armour, 2));
+            // System.out.println(DT2 + " S " + DT + " " + getProtectiveTrait(armour, 2));
         }
         return DT2;
     }
@@ -245,7 +245,7 @@ public class ItemArmourMFBase extends ItemArmor implements ISpecialArmor, IArmou
         if (ArmourCalculator.advancedDamageTypes && !user.worldObj.isRemote) {
             DR = ArmourCalculator.adjustACForDamage(src, DR, getProtectiveTrait(armour, 0),
                     getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2));
-            System.out.println("armour 2" + Arrays.toString(new float[]{getProtectiveTrait(armour, 0), getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2)}));
+            // System.out.println("armour 2" + Arrays.toString(new float[]{getProtectiveTrait(armour, 0), getProtectiveTrait(armour, 1), getProtectiveTrait(armour, 2)}));
         }
         return DR;
     }

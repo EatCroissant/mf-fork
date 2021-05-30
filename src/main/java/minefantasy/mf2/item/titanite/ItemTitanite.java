@@ -1,4 +1,4 @@
-package minefantasy.mf2.item;
+package minefantasy.mf2.item.titanite;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -10,10 +10,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ItemTitanite extends ItemEnchantedBook {
@@ -99,10 +98,22 @@ public class ItemTitanite extends ItemEnchantedBook {
     }
 
     public static class NBTTitanite{
+        /*
+         *   Armour and weapon configuration. Available types
+         *   Damage, Ice, Fire, Lightning, Chaos, Dark, Holy
+         *
+         *   Upgrade pathes:
+         *   Damage 5 > Fire 5(10) > Chaos
+         *   Damage 5 > Lightning 10
+         *   Damage 5 > Ice 10
+         *   Damage 5 > Holy 5(10) > Dark 5
+         *   Damage 15
+         *   */
         public TYPE titanite_class;
         public boolean unique=false;
         public int level=0;
 
+        private NBTTitanite(boolean unique, TYPE class_, int level){this.titanite_class=class_;this.unique=unique;this.level=level;}
         //parse
         public NBTTitanite(String str){
             parse(str);
@@ -128,7 +139,7 @@ public class ItemTitanite extends ItemEnchantedBook {
                 this.unique = Integer.parseInt(parts[0]) == 1;
                 this.level = Integer.parseInt(parts[2]);
 
-                System.out.println(toString());
+                // System.out.println(toString());
             }
             catch(Exception e){
                 return false;
@@ -197,6 +208,21 @@ public class ItemTitanite extends ItemEnchantedBook {
             return false;
         }
 
+        public static ArrayList<ItemStack> constructTopTitanitedItemArray(ItemStack item){
+            ArrayList<ItemStack> items = new ArrayList<>();
+            for(TYPE i : TYPE.values())
+                items.add(new NBTTitanite(i.name.contains("U"), i, i.max_lvl).setUpgrade(item.copy()));
+            return items;
+        }
+
+        public static ArrayList<NBTTitanite> constructArrayTopTitanite(){
+            ArrayList<NBTTitanite> items = new ArrayList<>();
+            for(TYPE i : TYPE.values())
+                items.add(new NBTTitanite(i.name.contains("U"), i, i.max_lvl));
+            return items;
+        }
+
+
         public List<Integer> getUpgradeList(){
             ArrayList<Integer> list = new ArrayList<>();
             if(titanite_class == null)return list;
@@ -256,6 +282,9 @@ public class ItemTitanite extends ItemEnchantedBook {
             return s;
         }
 
+        public String getTranslatedTitaniteName(){
+            return TYPE.getName(this.titanite_class);
+        }
 
         private enum TYPE{
             BASIC(1, "B", 15),
@@ -275,6 +304,10 @@ public class ItemTitanite extends ItemEnchantedBook {
             int id;
             String name;
             int max_lvl;
+
+            public static String getName(TYPE t){
+                return StatCollector.translateToLocal("item.titanite." + t.name + ".name");
+            }
 
             public static TYPE getTypeByName(String nane){
                 for(TYPE t : TYPE.values()){

@@ -6,6 +6,7 @@ import minefantasy.mf2.api.armour.*;
 import minefantasy.mf2.api.weapon.IDamageType;
 import minefantasy.mf2.item.titanite.BattleConfig;
 import minefantasy.mf2.item.armour.ArmourDesign;
+import minefantasy.mf2.item.titanite.ToolDesignScalable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -202,7 +203,7 @@ public class ArmourCalculator {
             return value;// Null means undefined
         }
 
-        System.out.printf( "\nCalc: %s,(%f) %s %s\n ",src.getClass(), value, Arrays.toString(ratio), Arrays.toString(new float[]{cuttingProt, bluntProt, pierceProt}) );
+        // System.out.printf( "\nCalc: %s,(%f) %s %s\n ",src.getClass(), value, Arrays.toString(ratio), Arrays.toString(new float[]{cuttingProt, bluntProt, pierceProt}) );
         return modifyACForType(value, ratio[0], ratio[1], ratio[2], cuttingProt, bluntProt, pierceProt,
                 getArmourPenetration(src));
     }
@@ -264,7 +265,7 @@ public class ArmourCalculator {
 
             if (user == damager && user instanceof EntityLivingBase) {
                 float[] s= getRatioForMelee((EntityLivingBase) user, ((EntityLivingBase) user).getHeldItem());
-                if( s != null )System.out.printf("damage %s %d\n", Arrays.toString(s), s.length);
+                // if( s != null ) System.out.printf("damage %s %d\n", Arrays.toString(s), s.length);
                 return s;
             }
             return getRatioForIndirect(damager);
@@ -305,9 +306,9 @@ public class ArmourCalculator {
 
     public static float[] getRatioForWeapon(EntityLivingBase user, ItemStack weapon) {
         Item item = weapon.getItem();
-        BattleConfig itemConfig = BattleConfig.getConfig(item);
-        if  (itemConfig != null && itemConfig.getType() == 2 ) {
-            return itemConfig.getValues();
+
+        if  (ToolDesignScalable.hasDesign(weapon)) {
+            return ToolDesignScalable.getToolDesignScalable(weapon).designScales(weapon);
         }
 
         if (item instanceof IDamageType) {

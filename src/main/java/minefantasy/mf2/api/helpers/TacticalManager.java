@@ -351,7 +351,8 @@ public class TacticalManager {
      */
     public static float resistBase(EntityLivingBase user, DamageSource source) {
         float resistance = 100F;
-
+        // System.out.println("DEBUG "+  (user instanceof EntityPlayer ? ((EntityPlayer) user).getDisplayName() :  "cow" ) + "||" + source.toString() );
+        // TODO:ARIAMIS: Parts thats blocks damage in percents
         for (int a = 0; a < 4; a++) {
             ItemStack armour = user.getEquipmentInSlot(a + 1);
             if (armour != null && armour.getItem() instanceof IElementalResistance) {
@@ -364,6 +365,7 @@ public class TacticalManager {
     }
 
     public static float getResistance(EntityLivingBase user, DamageSource source) {
+        //TODO:ARIAMIS: CUSTOM TYPES OF DAMAGE
         if (source.isFireDamage()) {
             return resistFire(user, source);
         }

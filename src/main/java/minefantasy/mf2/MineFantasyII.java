@@ -13,7 +13,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import minefantasy.mf2.api.MineFantasyAPI;
 import minefantasy.mf2.integration.biomes.BIOPIntegration;
-import minefantasy.mf2.item.ItemTitanite;
+import minefantasy.mf2.item.titanite.ItemTitanite;
 import minefantasy.mf2.item.armour.ArmourDesign;
 import minefantasy.mf2.api.armour.CustomArmourEntry;
 import minefantasy.mf2.block.list.BlockListMF;

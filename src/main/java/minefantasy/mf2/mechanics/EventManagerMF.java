@@ -6,7 +6,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import minefantasy.mf2.MineFantasyII;
 import minefantasy.mf2.api.armour.IPowerArmour;
 import minefantasy.mf2.api.armour.ISpecialArmourMF;
-import minefantasy.mf2.api.armour.ItemArmourMFBase;
 import minefantasy.mf2.api.heating.IHotItem;
 import minefantasy.mf2.api.heating.TongsHelper;
 import minefantasy.mf2.api.helpers.*;
@@ -20,7 +19,6 @@ import minefantasy.mf2.api.tool.IHuntingItem;
 import minefantasy.mf2.api.tool.ISmithTongs;
 import minefantasy.mf2.api.weapon.WeaponClass;
 import minefantasy.mf2.client.render.RenderPowerArmour;
-import minefantasy.mf2.config.ConfigExperiment;
 import minefantasy.mf2.config.ConfigHardcore;
 import minefantasy.mf2.config.ConfigStamina;
 import minefantasy.mf2.entity.EntityCogwork;
@@ -28,13 +26,12 @@ import minefantasy.mf2.entity.EntityItemUnbreakable;
 import minefantasy.mf2.entity.mob.EntityDragon;
 import minefantasy.mf2.farming.FarmingHelper;
 import minefantasy.mf2.integration.CustomStone;
-import minefantasy.mf2.item.ClientItemsMF;
-import minefantasy.mf2.item.ItemTitanite;
-import minefantasy.mf2.item.armour.ItemArmourMF;
 import minefantasy.mf2.item.food.FoodListMF;
 import minefantasy.mf2.item.list.ComponentListMF;
 import minefantasy.mf2.item.list.ToolListMF;
-import minefantasy.mf2.item.titanite.BattleConfig;
+import minefantasy.mf2.item.titanite.ArmourDesignScalable;
+import minefantasy.mf2.item.titanite.ItemTitanite;
+import minefantasy.mf2.item.titanite.ToolDesignScalable;
 import minefantasy.mf2.item.weapon.ItemWeaponMF;
 import minefantasy.mf2.network.packet.LevelupPacket;
 import minefantasy.mf2.network.packet.SkillPacket;
@@ -47,7 +44,6 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -623,26 +619,46 @@ public class EventManagerMF {
                     event.toolTip
                             .add(EnumChatFormatting.RED + StatCollector.translateToLocal("attribute.inferior.name"));
                 }
+               // event.toolTip.add("Hello form SAD");
                 if (!event.itemStack.getTagCompound().getBoolean("MF_Inferior")) {
                     event.toolTip
                             .add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("attribute.superior.name"));
                 }
             }
-            if(event.itemStack.getItem() instanceof ItemArmourMF && ArmourCalculator.advancedDamageTypes) {
-                ((ItemArmourMF)event.itemStack.getItem()).addProtectionTraits(event.itemStack, event.toolTip, GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak));
-            }
-            if(event.itemStack != null && BattleConfig.isToolTitanable(event.itemStack.getItem()))
-                event.toolTip.add(Arrays.toString(BattleConfig.getAttackRates(event.itemStack)));
+//            if(event.itemStack.getItem() instanceof ItemArmourMF && ArmourCalculator.advancedDamageTypes) {
+//                ((ItemArmourMF)event.itemStack.getItem()).addProtectionTraits(event.itemStack, event.toolTip, GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak));
+//            }
+//            if(ToolDesignScalable.isTool(event.itemStack.getItem()))
+//                event.toolTip.add(Arrays.toString(BattleConfig.getAttackRates(event.itemStack)));
 
-            if (event.itemStack.getItem() instanceof ItemArmor
-                    && (!(event.itemStack.getItem() instanceof ItemArmourMFBase) || ClientItemsMF.showSpecials(
-                    event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips))) {
+//            if (event.itemStack.getItem() instanceof ItemArmor
+//                    && (!(event.itemStack.getItem() instanceof ItemArmourMFBase) || ClientItemsMF.showSpecials(
+//                    event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips))) {
+//                //addArmourDR(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
+//            }
 
-                //addArmourDR(event.itemStack, event.entityPlayer, event.toolTip, event.showAdvancedItemTooltips);
+            if(ToolDesignScalable.hasDesign(event.itemStack)){
+
+                String[] text = ToolDesignScalable.getFormattedString(event.itemStack);
+
+                if(ToolDesignScalable.isUpgraded(event.itemStack)){
+                    ItemTitanite.NBTTitanite titanite = (new ItemTitanite.NBTTitanite(event.itemStack));
+                    event.toolTip.add(
+                        String.format("Upgraded by %s with %d level", titanite.getTranslatedTitaniteName(), titanite.level)
+                    );
+                }
+                event.toolTip.addAll(Arrays.asList(text));
             }
+
+            if(ArmourDesignScalable.hasDesign(event.itemStack)){
+                String text = ArmourDesignScalable.getFormattedString(event.itemStack);
+              //  System.out.println(ArmourDesignScalable.getMaterial(event.itemStack).name);
+                event.toolTip.add(text);
+            }
+
 
             if (ArmourCalculator.advancedDamageTypes && ArmourCalculator.getRatioForWeapon(event.itemStack) != null) {
-                displayWeaponTraits(ArmourCalculator.getRatioForWeapon(event.itemStack), event.toolTip);
+                // displayWeaponTraits(ArmourCalculator.getRatioForWeapon(event.itemStack), event.toolTip);
             }
             if (ToolHelper.shouldShowTooltip(event.itemStack)) {
                 showCrafterTooltip(event.itemStack, event.toolTip);
