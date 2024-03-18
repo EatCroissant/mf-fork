@@ -10,9 +10,13 @@ import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
+import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.NotNull;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
+
+import java.util.function.Predicate;
 
 @ZenClass("mods.minefantasy.CarpenterBench")
 public class CarpentersBench {
@@ -29,6 +33,12 @@ public class CarpentersBench {
                                           double exp, String tool, int hammer, int anvil, int time, IIngredient[] ingreds) {
         MineTweakerAPI.apply(new CarpentersAction(output, RPGElements.getSkillByName(skill), research, sound,
                 (float) exp, tool, hammer, anvil, time, ingreds));
+    }
+
+    @ZenMethod
+    public static void remove(IItemStack output){
+        Predicate<ICarpenterRecipe> equalName = i -> (i.getRecipeOutput().getItem() == MineTweakerMC.getItemStack(output).getItem() && i.getRecipeOutput().getItemDamage() == MineTweakerMC.getItemStack(output).getItemDamage());
+        CraftingManagerCarpenter.getInstance().recipes.removeIf(equalName);
     }
 
     public static class CarpentersAction implements IUndoableAction {

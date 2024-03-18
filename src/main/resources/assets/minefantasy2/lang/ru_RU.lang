@@ -871,9 +871,9 @@ item.standard_saw.name=Пила
 item.standard_spanner.name=Гаечный ключ
 
 
-item.standard_dagger.name=Кинжал
-item.standard_sword.name=Меч
-item.standard_mace.name=Булава
+item.standard_dagger.name=Кинжал %1$s
+item.standard_sword.name=Меч %1$s
+item.standard_mace.name=Булава %1$s
 item.standard_waraxe.name=Боевой топор
 item.standard_spear.name=Копьё
 

@@ -95,6 +95,7 @@ public class CarpenterRecipes {
         MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.waraxeTraining), nailHammer, "knife", 1,
                 30, new Object[]{" II ", "SSIN", "  I ", 'N', ComponentListMF.nail, 'S', ComponentListMF.plank, 'I',
                         Blocks.planks,});
+
         MineFantasyAPI.addCarpenterRecipe(artisanry, new ItemStack(ToolListMF.maceTraining), nailHammer, "knife", 1, 35,
                 new Object[]{"  II", "SSII", "  N ", 'N', ComponentListMF.nail, 'S', ComponentListMF.plank, 'I',
                         Blocks.planks,});

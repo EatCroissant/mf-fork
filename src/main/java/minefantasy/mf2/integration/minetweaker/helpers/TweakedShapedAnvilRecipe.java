@@ -94,7 +94,7 @@ public class TweakedShapedAnvilRecipe implements IAnvilRecipe {
 
                 IIngredient recipeStack = ingredients[x][y];
 
-                if (!isInList(inputItem, ingredients[x][y].getItems())) {
+                if (ingredients[x][y] != null && !isInList(inputItem, ingredients[x][y].getItems())) {
                     return false;
                 }
             }

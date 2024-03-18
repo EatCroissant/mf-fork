@@ -106,11 +106,13 @@ public class ItemCrossbow extends Item
         {
             startUse(user, item, "reload");
             return item;
-        } else // FIRE
-        {
         }
         startUse(user, item, "fire");
         return item;
+    }
+
+    public void onAttack(){
+
     }
 
     @Override
@@ -448,6 +450,8 @@ public class ItemCrossbow extends Item
 
     @Override
     public float getZoom(ItemStack item) {
+
+
         return getUseAction(item).equalsIgnoreCase("fire") ? getModifierForPart(item, "mod", "zoom") : 0F;// only mod
         // affects
         // zoom;

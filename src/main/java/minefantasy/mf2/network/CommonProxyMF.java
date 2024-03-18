@@ -39,6 +39,8 @@ public class CommonProxyMF implements IGuiHandler, ISmokeHandler {
         return null;
     }
 
+
+
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         if (ID == 1 && x == 1 && player.getHeldItem() != null) {

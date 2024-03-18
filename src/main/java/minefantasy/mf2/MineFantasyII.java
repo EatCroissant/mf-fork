@@ -26,6 +26,7 @@ import minefantasy.mf2.knowledge.ArtefactListMF;
 import minefantasy.mf2.knowledge.KnowledgeListMF;
 import minefantasy.mf2.material.BaseMaterialMF;
 import minefantasy.mf2.material.MetalMaterial;
+import minefantasy.mf2.mechanics.KeyBindProcessor;
 import minefantasy.mf2.mechanics.worldGen.WorldGenBiological;
 import minefantasy.mf2.mechanics.worldGen.WorldGenMFBase;
 import minefantasy.mf2.network.CommonProxyMF;
@@ -89,18 +90,21 @@ public class MineFantasyII {
         return name.equals("Galactic_Hiker") || name.equals("tim4200") || name.equals("Sirse");
     }
     Configuration cfgs;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             new ConfigClient().setConfig(getCfg(event, "Client"));
+            KeyBindProcessor.registerBindings();
         }
         new ConfigArmour().setConfig(getCfg(event, "Armours"));
         new ConfigExperiment().setConfig(getCfg(event, "Specials"));
         new ConfigHardcore().setConfig(getCfg(event, "Hardcore"));
         new ConfigIntegration().setConfig(getCfg(event, "Integration"));
         new ConfigTools().setConfig(getCfg(event, "Tools"));
-        cfgs = getCfg(event, "Recipes");
+
         new ConfigWeapon().setConfig(getCfg(event, "Weapons"));
         new ConfigStamina().setConfig(getCfg(event, "Stamina_System"));
         new ConfigItemRegistry().setConfig(getCfg(event, "Item_Registry"));
@@ -118,6 +122,8 @@ public class MineFantasyII {
 
         RecipeRemover.removeRecipes();
         ToolListMF.load();
+
+        cfgs = getCfg(event, "Recipes");
         ComponentListMF.load();
     }
 
@@ -162,11 +168,11 @@ public class MineFantasyII {
         ArtefactListMF.init();
         BasicRecipesMF.init();
         ItemLootSack.addItems();
+        new ConfigRecipes().setConfig(cfgs);
         proxy.postInit();
         proxy.registerTickHandlers();
         MetalMaterial.addHeatables();
         new BIOPIntegration();
-        new ConfigRecipes().setConfig(cfgs);
     }
 
     @EventHandler

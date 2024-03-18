@@ -28,6 +28,7 @@ import minefantasy.mf2.item.list.ToolListMF;
 import minefantasy.mf2.item.list.styles.DragonforgedStyle;
 import minefantasy.mf2.item.list.styles.OrnateStyle;
 import minefantasy.mf2.mechanics.ExtendedReachMF;
+import minefantasy.mf2.mechanics.KeyBindProcessor;
 import minefantasy.mf2.mechanics.PlayerTickHandlerMF;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -79,6 +80,7 @@ public class ClientProxyMF extends CommonProxyMF {
         FMLCommonHandler.instance().bus().register(new PlayerTickHandlerMF());
         FMLCommonHandler.instance().bus().register(new AnimationHandlerMF());
         FMLCommonHandler.instance().bus().register(new ExtendedReachMF());
+        FMLCommonHandler.instance().bus().register(new KeyBindProcessor());
         MinecraftForge.EVENT_BUS.register(new HudHandlerMF());
         FMLCommonHandler.instance().bus().register(new ClientTickHandler());
 
@@ -218,6 +220,7 @@ public class ClientProxyMF extends CommonProxyMF {
         MinecraftForgeClient.registerItemRenderer(ToolListMF.waraxeStone, new RenderSword().setAxe());
         MinecraftForgeClient.registerItemRenderer(ToolListMF.spearStone, new RenderSpear());
         MinecraftForgeClient.registerItemRenderer(ToolListMF.swordTraining, new RenderSword());
+        MinecraftForgeClient.registerItemRenderer(ToolListMF.spearTraining, new RenderSpear());
         MinecraftForgeClient.registerItemRenderer(ToolListMF.crossbow_custom, new RenderCrossbow(2.0F));
 
         // STANDARD

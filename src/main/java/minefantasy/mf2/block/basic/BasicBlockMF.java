@@ -8,7 +8,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
@@ -38,6 +40,13 @@ public class BasicBlockMF extends Block {
     public boolean isOpaqueCube() {
         return this.blockMaterial != Material.glass;
     }
+
+    @Override
+    public boolean isCollidable() {
+        return super.isCollidable();
+    }
+
+
 
     @Override
     public Item getItemDropped(int meta, Random rand, int i) {

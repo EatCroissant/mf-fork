@@ -27,11 +27,11 @@ public class TweakedShapelessCBRecipes implements ICarpenterRecipe {
         this.tool = tool;
         this.hammer = hammer;
         this.anvil = anvil;
+        this.time = time;
         this.exp = exp;
         this.sound = sound;
         this.research = research;
         this.s = s;
-        this.time = 1;
     }
 
     @Override

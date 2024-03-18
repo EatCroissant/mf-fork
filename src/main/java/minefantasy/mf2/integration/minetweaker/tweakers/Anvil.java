@@ -2,6 +2,8 @@ package minefantasy.mf2.integration.minetweaker.tweakers;
 
 import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
+import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
+import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.Skill;
 import minefantasy.mf2.integration.minetweaker.helpers.TweakedShapedAnvilRecipe;
@@ -14,6 +16,8 @@ import minetweaker.api.minecraft.MineTweakerMC;
 import stanhebben.zenscript.annotations.NotNull;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
+
+import java.util.function.Predicate;
 
 @ZenClass("mods.minefantasy.Anvil")
 public class Anvil {
@@ -30,6 +34,12 @@ public class Anvil {
                                           String tool, int hammer, int anvil, int time, IIngredient[] ingreds) {
         MineTweakerAPI.apply(new AnvilAction(output, RPGElements.getSkillByName(skill), research, hot,
                 tool, hammer, anvil, time, ingreds));
+    }
+
+    @ZenMethod
+    public static void remove(@NotNull IItemStack output){
+        Predicate<IAnvilRecipe> equalName = i -> (i.getRecipeOutput().getItem() == MineTweakerMC.getItemStack(output).getItem() && i.getRecipeOutput().getItemDamage() == MineTweakerMC.getItemStack(output).getItemDamage());
+        CraftingManagerAnvil.getInstance().recipes.removeIf(equalName);
     }
 
     public static class AnvilAction implements IUndoableAction {
