@@ -154,6 +154,7 @@ public class EntityMine extends Entity {
             this.motionX = 0;
             this.motionZ = 0;
             this.motionY *= -0.99D;
+
         }
 
         if (fuse > 0) {
@@ -164,9 +165,24 @@ public class EntityMine extends Entity {
         if (ticksExisted % 5 == 0) {
             List<EntityLivingBase> list = worldObj.getEntitiesWithinAABB(EntityLivingBase.class,
                     boundingBox.expand(radius * 2, radius, radius * 2));
-            if (fuse == 0 && !list.isEmpty()) {
-                boolean detonate = false;
-                Iterator i = list.iterator();
+
+            List<EntityMine> listMines = worldObj.getEntitiesWithinAABB(EntityMine.class,
+                    boundingBox.expand(radius * 2, radius, radius * 2));
+            boolean detonate = false;
+            Iterator i;
+            if (fuse == 0 && !listMines.isEmpty()){
+                i = listMines.iterator();
+                while (i.hasNext()) {
+                    EntityMine e = (EntityMine) i.next();
+                    if (e.getDistanceToEntity(this) < radius && !e.equals(this)) {
+                        detonate = true;
+                        break;
+                    }
+                }
+            }
+
+            if (fuse == 0 && !list.isEmpty() ) {
+                i = list.iterator();
                 while (i.hasNext()) {
                     EntityLivingBase e = (EntityLivingBase) i.next();
                     if (e.getDistanceToEntity(this) < radius) {
@@ -174,11 +190,11 @@ public class EntityMine extends Entity {
                         break;
                     }
                 }
+            }
 
-                if (detonate) {
-                    worldObj.playSoundEffect(posX, posY, posZ, "game.tnt.primed", 1.0F, 0.75F);
-                    --fuse;
-                }
+            if (detonate) {
+                worldObj.playSoundEffect(posX, posY, posZ, "game.tnt.primed", 1.0F, 0.75F);
+                --fuse;
             }
         }
         if (fuse < 0) {
