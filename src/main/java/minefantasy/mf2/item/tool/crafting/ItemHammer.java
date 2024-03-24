@@ -196,6 +196,7 @@ public class ItemHammer extends ItemTool implements IToolMaterial, IToolMF, IDam
         return CustomToolHelper.getEfficiency(stack, super.getDigSpeed(stack, block, meta), efficiencyMod);
     }
 
+    /** getEfficency  */
     public float func_150893_a(ItemStack stack, Block block) {
         float base = super.func_150893_a(stack, block);
         return base <= 1.0F ? base

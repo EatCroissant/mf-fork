@@ -79,29 +79,79 @@ public class TweakedShapedAnvilRecipe implements IAnvilRecipe {
         return tool;
     }
 
-    @Override
-    public boolean matches(AnvilCraftMatrix matrix) {
+   /**
+   public boolean matches(AnvilCraftMatrix matrix) {
         for (int x = 0; x <= this.recipeWidth; ++x) {
+            if(ingredients.length > this.recipeWidth || ingredients[x].length > this.recipeHeight){
+                return false;
+            }
             for (int y = 0; y <= this.recipeHeight; ++y) {
                 ItemStack inputItem = matrix.getStackInRowAndColumn(x, y);
                 /*if(x >= this.recipeWidth || y >= this.recipeHeight) {
                     return false;
-                }*/
-
-                if (inputItem == null && ingredients[x][y] != null || inputItem != null && ingredients[x][y] == null) {
-                    return false;
                 }
 
-                IIngredient recipeStack = ingredients[x][y];
+                if(ingredients[x][y] == null && inputItem == null){
+                    continue;
+                } else if (inputItem != null && ingredients[x][y] != null) {
+                    IIngredient recipeStack = ingredients[x][y];
+                    if(recipeStack == inputItem.getItem()){
+    } **/
 
-                if (ingredients[x][y] != null && !isInList(inputItem, ingredients[x][y].getItems())) {
-                    return false;
+   @Override
+   public boolean matches(AnvilCraftMatrix inv) {
+       // Ширина и высота вашей матрицы
+       int width = 6;
+       int height = 4;
+       int recHeight = ingredients.length;
+       int recWidth = ingredients[0].length;
+       boolean matches = false;
+
+       // Проходимся по подматрицам
+       for (int offsetX = 0; offsetX <= width - recWidth; offsetX++) {
+           for (int offsetY = 0; offsetY <= height - recHeight; offsetY++) {
+               // Проверяем каждую подматрицу
+               System.out.println(offsetX + " "+ offsetY);
+               if (checkSubMatrix(inv, offsetX, offsetY)) {
+                   System.out.println("GOT IT");
+                   return true;
+               }
+           }
+
+       }
+
+       return matches;
+   }
+
+    private boolean checkSubMatrix(AnvilCraftMatrix inv, int offsetX, int offsetY) {
+        int recHeight = ingredients.length;
+        int recWidth = ingredients[0].length;
+
+        for (int x = 0; x < recWidth; x++) {
+            for (int y = 0; y < recHeight; y++) {
+                ItemStack stack = inv.getStackInRowAndColumn(offsetX + x, offsetY + y);
+                IIngredient ii = ingredients[y][x];
+                // Проверяем совпадение ингредиента в подматрице с ингредиентом из массива
+                if (stack == null &&  ii == null) {
+                    continue;
+                }
+                if (stack == null || ii == null) {
+                    return false; // Несоответствие
+                }
+
+                for (IItemStack i : ii.getItems()) {
+                    ItemStack ingred = MineTweakerMC.getItemStack(i);
+                    if (stack.getItem() != ingred.getItem() || stack.getItemDamage() != ingred.getItemDamage()) {
+                        return false;
+                    } else {
+                        break;
+                    }
                 }
             }
         }
-
         return true;
     }
+
 
     private boolean isInList(ItemStack inputStack, List<IItemStack> items) {
         for (IItemStack i : items) {
