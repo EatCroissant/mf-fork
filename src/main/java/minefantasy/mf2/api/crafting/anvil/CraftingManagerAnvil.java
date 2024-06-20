@@ -228,51 +228,34 @@ public class CraftingManagerAnvil {
         // Добавил этот код, он проходит, в логе пишется, но рецепт не отображается
         for (Object o : this.recipes) {
             IAnvilRecipe recipe = (IAnvilRecipe) o;
-            if ( o instanceof TweakedShapedAnvilRecipe ) {
+            if ( o instanceof TweakedShapedAnvilRecipe) {
                 TweakedShapedAnvilRecipe ri = (TweakedShapedAnvilRecipe) o;
-                if ((recipe.getRecipeSize() == matrix.getSizeInventory())) {
-                    boolean match = true;
-                    int matches = 0;
-                    // По рецептам
-                    for (int k = 0; k < recipe.getRecipeSize(); k++) {
-                        ItemStack is = MineTweakerMC.getItemStack(ri.ingredients[k / 6][k % 6]).copy();
-                        ItemStack is2 = matrix.getStackInRowAndColumn(k % 6,k / 6 ) ;
-                        if (is == null) matches++;
-                        else if (is2 != null && is2.getItem() != null && is.getItem() != null && is.getItem().equals(is2.getItem())) {
-                            if (is.getItemDamage() == is2.getItemDamage()) matches++;
-                        } else {
-                            match = false;
-                            continue;
-                        }
+
+                System.out.println(recipe.getRecipeSize() +" FOUND RECIPEs " + size + " " + matrix.getSizeInventory());
+                if (ri.matches(matrix)) {
+                    // Проверяем, соответствует ли матрица рецепту и если да, возвращаем результат ковки
+                    time = recipe.getCraftTime();
+                    hammer = recipe.getRecipeHammer();
+                    anvi = recipe.getAnvil();
+                    hot = recipe.outputHot();
+                    toolType = recipe.getToolType();
+                    System.out.println("FOUND RECIPE " + toolType);
+                    if (!recipe.useCustomTiers()) {
+                        anvil.setForgeTime(time);
+                        anvil.setHammerUsed(hammer);
+                        anvil.setRequiredAnvil(anvi);
                     }
-
-                    if (match && matches == matrix.getSizeInventory()) {
-                        System.out.print(1);
-                        time = recipe.getCraftTime();
-                        hammer = recipe.getRecipeHammer();
-                        anvi = recipe.getAnvil();
-                        hot = recipe.outputHot();
-                        toolType = recipe.getToolType();
-
-                        if (!recipe.useCustomTiers()) {
-                            anvil.setForgeTime(time);
-                            anvil.setHammerUsed(hammer);
-                            anvil.setRequiredAnvil(anvi);
-                        }
-                        anvil.setHotOutput(hot);
-                        anvil.setToolType(toolType);
-                        if (!recipe.getResearch().equalsIgnoreCase("tier")) {
-                            anvil.setResearch(recipe.getResearch());
-                        }
-                        anvil.setSkill(recipe.getSkill());
-
-                        return recipe.getRecipeOutput();
+                    anvil.setHotOutput(hot);
+                    anvil.setToolType(toolType);
+                    if (!recipe.getResearch().equalsIgnoreCase("tier")) {
+                        anvil.setResearch(recipe.getResearch());
                     }
+                    anvil.setSkill(recipe.getSkill());
+
+                    return recipe.getRecipeOutput();
                 }
             }
         }
-
-
 
         for (int var5 = 0; var5 < matrix.getSizeInventory(); ++var5) {
             ItemStack var6 = matrix.getStackInSlot(var5);

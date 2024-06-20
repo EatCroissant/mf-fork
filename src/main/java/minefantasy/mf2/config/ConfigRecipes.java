@@ -2,7 +2,9 @@ package minefantasy.mf2.config;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import minefantasy.mf2.api.MineFantasyAPI;
+import minefantasy.mf2.api.crafting.anvil.CraftingManagerAnvil;
 import minefantasy.mf2.api.crafting.anvil.IAnvilRecipe;
+import minefantasy.mf2.api.crafting.carpenter.CraftingManagerCarpenter;
 import minefantasy.mf2.api.crafting.carpenter.ICarpenterRecipe;
 import minefantasy.mf2.api.rpg.RPGElements;
 import minefantasy.mf2.api.rpg.Skill;
@@ -11,6 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,10 +27,16 @@ import java.util.*;
 public class ConfigRecipes extends ConfigurationBaseMF {
 
     public static final String CARPENTER = "Carpenter";
+    public static final String REMOVE = "Remove";
     public static final String ANVIL = "Anvil";
 
     @Override
     protected void loadConfig() {
+        for (Map.Entry<String, Property> entry : config.getCategory(REMOVE).getValues().entrySet()) {
+            String[] recipe = entry.getValue().getString().split("\\s+");
+            removeRecipe(recipe[0], recipe[1]);
+        }
+
         for (Map.Entry<String, Property> entry : config.getCategory(CARPENTER).getValues().entrySet()) {
             if(parse(entry.getValue().getString()) == null){
                 System.out.println("Cannot process carpenter recipe: "+entry.toString());
@@ -142,4 +151,53 @@ public class ConfigRecipes extends ConfigurationBaseMF {
         return MineFantasyAPI.addAnvilRecipe(skill, output, recipe[2].equals("?")?"":recipe[2], hot,
                 recipe[4].equals("?")?"":recipe[4], Integer.parseInt(recipe[5]), Integer.parseInt(recipe[6]), Integer.parseInt(recipe[7]), matrix);
     }
+
+    public static void removeCarpenterRecipe(String itemName){
+        CraftingManagerCarpenter cm = CraftingManagerCarpenter.getInstance();
+        Iterator var11 = cm.getRecipeList().iterator();
+        while (var11.hasNext()) {
+            ICarpenterRecipe rec = (ICarpenterRecipe) var11.next();
+            System.out.println(" !!!@ " + rec.getRecipeOutput().getItem().getUnlocalizedName());
+
+            if (itemName.equalsIgnoreCase(rec.getRecipeOutput().getItem().getUnlocalizedName())) {
+                cm.getRecipeList().remove(rec);
+                System.out.println("Remove recipe " + rec.getRecipeOutput().getItem().getUnlocalizedName());
+            }
+        }
+    }
+
+    public static void removeAnvilRecipe(String itemName){
+        CraftingManagerAnvil cm = CraftingManagerAnvil.getInstance();
+        Iterator var11 = cm.getRecipeList().iterator();
+
+        while (var11.hasNext()) {
+            ICarpenterRecipe rec = (ICarpenterRecipe) var11.next();
+            if (itemName.equalsIgnoreCase(rec.getRecipeOutput().getItem().getUnlocalizedName())) {
+                cm.getRecipeList().remove(rec);
+                System.out.println("Remove recipe anvil " + rec.getRecipeOutput().getItem().getUnlocalizedName());
+            }
+        }
+    }
+    public static void removeDefaultRecipe(String itemName){
+        CraftingManager cm = CraftingManager.getInstance();
+        Iterator var11 = cm.getRecipeList().iterator();
+        while (var11.hasNext()) {
+            ICarpenterRecipe rec = (ICarpenterRecipe) var11.next();
+            if (itemName.equalsIgnoreCase(rec.getRecipeOutput().getItem().getUnlocalizedName())) {
+                cm.getRecipeList().remove(rec);
+                System.out.println("Remove recipe default " + rec.getRecipeOutput().getItem().getUnlocalizedName());
+            }
+        }
+    }
+
+    public static void removeRecipe(String type, String itemName){
+        System.out.println("Remove recipe default " + type);
+
+        switch (type){
+//            case "carpenter": removeCarpenterRecipe(itemName);break;
+//            case "anvil": removeAnvilRecipe(itemName);break;
+//            case "recipe": removeDefaultRecipe(itemName);break;
+        }
+    }
+
 }

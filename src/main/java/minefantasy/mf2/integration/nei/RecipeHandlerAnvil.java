@@ -67,21 +67,6 @@ public class RecipeHandlerAnvil extends TemplateRecipeHandler {
             }
         }
 
-        /*if (inputStack.getItem() instanceof ISpecialCraftItem) {
-            for (Map.Entry<String, Item> entry : SpecialForging.specialCrafts.entrySet()) {
-                ItemStack dragonForgedStack = new ItemStack(entry.getValue());
-                if (CustomToolHelper.areEqual(dragonForgedStack, inputStack)) {
-                    String design = ((ISpecialCraftItem)entry.getValue()).getDesign(dragonForgedStack);
-                    for (IAnvilRecipe irecipe : (List<IAnvilRecipe>) CraftingManagerAnvil.getInstance().getRecipeList()) {
-                        ItemStack ingridient = new ItemStack(SpecialForging.getSpecialCraft(design, irecipe.getRecipeOutput()));
-                        if(ingridient != null) {
-                            hiddenStack = CustomToolHelper.tryDeconstruct(ingridient, inputStack);
-                        }
-                    }
-                }
-            }
-        }*/
-
         for (IAnvilRecipe irecipe : (List<IAnvilRecipe>) CraftingManagerAnvil.getInstance().getRecipeList()) {
             if ((hiddenStack != null && CustomToolHelper.areEqual(irecipe.getRecipeOutput(), hiddenStack)) || CustomToolHelper.areEqual(irecipe.getRecipeOutput(), inputStack)) {
                 if (ResearchLogic.hasInfoUnlocked(Minecraft.getMinecraft().thePlayer, irecipe.getResearch())) {
